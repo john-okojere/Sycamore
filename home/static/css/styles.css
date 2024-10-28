@@ -1,6 +1,11 @@
+*{
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+    font-family: "Poppins";
+}
 /* General styles */
 body {
-    font-family: Arial, sans-serif;
     background-color: #f7f7f7;
     margin: 0;
     padding: 0;
@@ -15,14 +20,27 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-top: 50px;
 }
-
+.nabar-nav{
+    gap:1rem;
+}
 /* Form styling */
 h1 {
     text-align: center;
     font-size: 2.5em;
     color: #333;
 }
-
+.about-section, .anticipate-section, .contact-wrapper{
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+@media  screen and (width:760px) {   
+.about-section, .anticipate-section, .contact-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+}
 form {
     width: 100%;
     margin: 0 auto;
@@ -81,7 +99,6 @@ form button[type="submit"]:hover {
 a {
     display: block;
     text-align: center;
-    margin-top: 20px;
     text-decoration: none;
     color: #005700;
 }
@@ -172,4 +189,8 @@ button[type="submit"][name="volunteer"][value="no"]:hover {
     font-size: 1em;
     color: #005700;
     margin-top: 15px;
+}
+
+footer a{
+    color:black !important;
 }
