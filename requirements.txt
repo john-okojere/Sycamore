@@ -1,0 +1,17 @@
+crispy-bootstrap5
+dj-database-url
+Django
+django-allauth
+django-ckeditor
+django-crispy-forms
+django-import-export
+gunicorn
+jwt
+pillow
+PyJWT
+pypng
+qrcode
+requests
+sqlparse
+uvicorn
+whitenoise
