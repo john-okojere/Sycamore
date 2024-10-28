@@ -1,0 +1,63 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+    text-align: center;
+}
+
+/* Headings */
+h1 {
+    font-size: 2.5em;
+    color: #005700; /* Primary color */
+    margin-bottom: 10px;
+}
+
+p {
+    color: #333;
+}
+
+/* ID Card styling */
+.card {
+    width: 100%;
+    max-width: 300px; /* Maximum width for the ID card */
+    border: 2px solid #005700; /* Border color matching the primary color */
+    border-radius: 10px;
+    background-color: #e6f9e6; /* Light green background for ID card */
+    padding: 20px;
+    margin: 20px auto; /* Center the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    width: 100px; /* Size of the QR code */
+    height: 100px;
+    margin-top: 10px;
+}
+
+/* Link styling */
+a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #005700; /* Primary color */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+a:hover {
+    background-color: #004600; /* Darker shade for hover effect */
+}

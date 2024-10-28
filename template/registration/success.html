@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Success</title>
+  <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h1>Thank You for Registering!</h1>
+    <p>Your ID Card:</p>
+    <div class="card">
+      <p>Name: {{ registrant.first_name }} {{ registrant.last_name }}</p>
+      <p>Email: {{ registrant.email }}</p>
+      <p>ID: {{ registrant.id }}</p>
+      <img src="{{ registrant.qr_code.url }}" alt="QR Code">
+    </div>
+    <a href="{% url 'volunteer' registrant.id %}">Volunteer for Work Force</a>
+  </div>
+</body>
+</html>

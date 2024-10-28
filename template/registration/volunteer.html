@@ -1,0 +1,19 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+  <title>Volunteer</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Would you like to volunteer for the workforce?</h1>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" name="volunteer" value="yes">Yes</button>
+      <button type="submit" name="volunteer" value="no">No</button>
+    </form>
+  </div>
+</body>
+</html>

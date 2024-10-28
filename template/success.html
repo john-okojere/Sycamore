@@ -1,0 +1,21 @@
+<html>
+<head>
+  <title>Registration Success</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5 text-center">
+    <h1>Thank You for Registering, {{ user.first_name }}!</h1>
+    <div class="card" style="width: 18rem; margin: auto;">
+      <img src="{{ user.qr_code.url }}" class="card-img-top" alt="QR Code">
+      <div class="card-body">
+        <h5 class="card-title">{{ user.first_name }} {{ user.last_name }}</h5>
+        <p class="card-text">ID: {{ user.id }}</p>
+        <p class="card-text">Email: {{ user.email }}</p>
+        <p class="card-text">Phone: {{ user.phone_number }}</p>
+      </div>
+    </div>
+    <a href="/" class="btn btn-primary mt-3">Back to Home</a>
+  </div>
+</body>
+</html>
