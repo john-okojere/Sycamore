@@ -31,6 +31,10 @@
             background:transparent;
             box-shadow:none;
         }
+        .btn-register{
+            background: #007B00;
+            color: white;
+        }
     </style>
 </head>
     <body>
@@ -76,18 +80,76 @@
             <h1 class="display-4 fw-bold lh-1 text-body-emphasis welcome-text" style="font-size: 4.5rem;text-align: left;"> SYCAMORE 2024</h1>
             <p class="lead">Where we grow in grace through the hearing of the Word, true worship, fellowship, and prayer, rooted in faith and the renewing power of the Holy Spirit.</p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                <a class="btn btn-register btn-lg px-4 me-md-2 fw-bold btn-light text-dark" href="{% url 'register' %}">
+                <a class="btn btn-register btn-lg px-4 me-md-2 fw-bold " href="{% url 'register' %}">
                     Register Now
                 </a>
             </div>
         </div>
     </div>
     </div>
+    <!-- countdown section -->
+    <!-- countdown section -->
+<div class="container mt-5">
+    <style>
+        .countdown-container {
+            text-align: center;
+            color: #333;
+            padding: 20px;
+        }
+        .countdown-container h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #000;
+        }
+        .countdown {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 15px;
+            color: #007B00;
+            text-transform: uppercase;
+        }
+        .countdown-labels {
+            font-size: 1rem;
+            color: #555;
+        }
+    </style>
+    
+    <div class="countdown-container">
+        <h1 style="text-transform: uppercase;">Countdown to Sycamore 2024</h1>
+        <p>Join us for Sycamore, where believers gather to experience renewal and growth in faith. Prepare your heart to receive the Word, worship, fellowship, and prayer. The event begins on December 26, 2024!</p>
+        <div class="countdown" id="countdown"></div>
+        <div class="countdown-labels">
+        </div>
+    </div>
+    
+    <script>
+        const eventDate = new Date("December 26, 2024 00:00:00").getTime();
+
+        const countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = `
+                ${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "The Sycamore event is here!";
+            }
+        }, 1000);
+    </script>
+</div>
 
 
     <!-- about section  -->
-    <div id="about" class="container" style="margin-top: 5rem !important;">
-        <div class="about-section">
+    <div id="about"  style="margin-top: 5rem !important;background-color: rgba(128, 128, 128, 0.164);padding: 2rem;">
+        <div class="about-section container">
             <div class="about-image">
                 <img style="width: 100%;" src="{% static 'images/about sycamore.jpg' %}" alt="About Sycamore">
             </div>
@@ -96,62 +158,63 @@
             </div>
         </div>
     </div>
+   
     <div style="background-color: rgba(128, 128, 128, 0.164);margin-top: 4rem !important;padding: 2rem;">
-            <!-- Anticipate Sycamore Section -->
-            <div class="container my-5 p-5" >
-                <h2 class="text-center"><strong>WHAT TO EXCEPT AT SYCAMORE</strong></h2> <p></p>
-                <hr>
-                <p class="lighter-text">This Sycamore season we anticipate the regenerating Word of God, True <strong>Worship</strong>, <strong>Fellowship</strong> with the Saints, and the Father in <strong>Prayer</strong>.</p>
-                <div class="anticipate-section">
-                    <!-- First Section (Word) -->
-                    <div class="anticipate-item">
-                        <div class="top-section" style="height: 100px;background-color: rgba(0,0,0,0.75);padding: 20px;color:white;background-size: cover;background-blend-mode: multiply; background-image: url({% static 'images/word_bg.jpg' %});">
-                            <h3><span class="bold-highlight">Word</span></h3>
-                            </div>
-                        <div class="bottom-section">
-                            <p>Desire the washing of water by the word for the cleansing of the soul and regeneration.</p>
-                        </div>
+        <!-- Anticipate Sycamore Section -->
+        <div class="container my-5">
+            <h2 class="text-center"><strong>WHAT TO EXPECT AT SYCAMORE</strong></h2>
+            <p class="lighter-text">This Sycamore season we anticipate the regenerating Word of God, True <strong>Worship</strong>, <strong>Fellowship</strong> with the Saints, and the Father in <strong>Prayer</strong>.</p>
+            <div class="anticipate-section">
+                <!-- First Section (Word) -->
+                <div class="anticipate-item">
+                    <div class="top-section" style="background-image: url('{% static "images/word_bg.jpg" %}');">
+                        <h3><span class="bold-highlight">Word</span></h3>
                     </div>
-            
-                    <!-- Second Section (Worship) -->
-                    <div class="anticipate-item">
-                        <div class="top-section" style="height: 100px;background-color: rgba(0,0,0,0.75);padding: 20px;color:white;background-size: cover;background-blend-mode: multiply; background-image: url({% static 'images/worship_bg.jpg' %});">
-                            <h3><span class="bold-highlight">Worship</span></h3>
-                            </div>
-                        <div class="bottom-section">
-                            <p>Arrive at the desire of the father for true worship in spirit and truth.</p>
-                        </div>
+                    <div class="bottom-section">
+                        <p>Desire the washing of water by the word for the cleansing of the soul and regeneration.</p>
                     </div>
-            
-                    <!-- Third Section (Fellowship) -->
-                    <div class="anticipate-item">
-                        <div class="top-section" style="height: 100px;background-color: rgba(0,0,0,0.75);padding: 20px;color:white;background-size: cover;background-blend-mode: multiply; background-image: url({% static 'images/fellowship__bg.jpg' %});">
-                            <h3><span class="bold-highlight">Fellowship</span></h3>
-                            </div>
-                        <div class="bottom-section">
-                            <p>Experience the good and pleasing fellowship of the saints dwelling in unity.</p>
-                        </div>
+                </div>
+    
+                <!-- Second Section (Worship) -->
+                <div class="anticipate-item">
+                    <div class="top-section" style="background-image: url('{% static "images/worship_bg.jpg" %}');">
+                        <h3><span class="bold-highlight">Worship</span></h3>
                     </div>
-            
-                    <!-- Fourth Section (Prayer) -->
-                    <div class="anticipate-item">
-                        <div class="top-section" style="height: 100px;background-color: rgba(0,0,0,0.75);padding: 20px;color:white;background-size: cover;background-blend-mode: multiply; background-image: url({% static 'images/prayer.png' %});">
-                            <h3><span class="bold-highlight">Prayer</span></h3>
-                            </div>
-                        <div class="bottom-section">
-                            <p>Anticipate the fruitful labour of touching God in the place of prayer.</p>
-                        </div>
+                    <div class="bottom-section">
+                        <p>Arrive at the desire of the father for true worship in spirit and truth.</p>
+                    </div>
+                </div>
+    
+                <!-- Third Section (Fellowship) -->
+                <div class="anticipate-item">
+                    <div class="top-section" style="background-image: url('{% static "images/fellowship__bg.jpg" %}');">
+                        <h3><span class="bold-highlight">Fellowship</span></h3>
+                    </div>
+                    <div class="bottom-section">
+                        <p>Experience the good and pleasing fellowship of the saints dwelling in unity.</p>
+                    </div>
+                </div>
+    
+                <!-- Fourth Section (Prayer) -->
+                <div class="anticipate-item">
+                    <div class="top-section" style="background-image: url('{% static "images/prayer.png" %}');">
+                        <h3><span class="bold-highlight">Prayer</span></h3>
+                    </div>
+                    <div class="bottom-section">
+                        <p>Anticipate the fruitful labour of touching God in the place of prayer.</p>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
+    
+
 <!-- Follow Online Section -->
-<div class="container mt-5 follow-online-container" style="text-align:-webkit-center">
+<div class="container mt-5 follow-online-container">
     <h2 class="text-center"><strong>Follow Online</strong></h2>
-    <hr>
     <p class="text-center">We’re excited to welcome you in person, but if you can’t make it, distance is no barrier! Stream Sycamore live on our social platforms and be blessed.</p>
     
-    <div class="row  cdffdd m-5 justify-content-center">
+    <div class="row cdffdd container justify-content-center">
         
         <!-- Waystream Section -->
         <div class="col-md-5 follow-online-item">
@@ -193,63 +256,66 @@
     </div>
 </div>
 
-     <!-- contact us  -->
-     <div id="contact" class="container mt-5 p-5">
-        <h2 class="text-center"><strong>Contact Us</strong></h2>
-        <hr>
-        <p class="text-center pb-4">For further enquiries on Sycamore, please engage our contact information below. We are eager to speak with you.</p>
-        <div class="contact-section mx-4">
-            <div class="contact-wrapper" style="align-items: center;">
-                <div class="contact-info">
-                    <div class="contact-card">
-                        <p class="contact-item"><strong>Call Us</strong><br>+234 904 929 4332</p>
-                        <hr class="contact-divider">
-                        <p class="contact-address"><strong>Address</strong><br>
-                            Empire Suites, Along David Mark Bypass Makurdi, Benue State, Nigeria.<br>
-                            <a href="https://maps.app.goo.gl/wkHDXLaiMh2GN2nZ6" target="_blank">See map</a>
-                        </p>
-                        <hr class="contact-divider">
-                        <p class="contact-email"><strong>Email</strong><br>
-                            info@againandafresh.org<br>
-                            againandafresh@gmail.com<br>
-                            <a href="mailto:againandafresh@gmail.com">Say hello</a>
-                        </p>
-                    </div>
+
+<!-- Contact Us -->
+<div id="contact" class="container mt-5">
+    <h2 class="text-center"><strong>Contact Us</strong></h2>
+    <p class="text-center">For further enquiries on Sycamore, please engage our contact information below. We are eager to speak with you.</p>
+    <div class="contact-section">
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <div class="contact-card">
+                    <p class="contact-item"><strong>Call Us</strong><br>+234 904 929 4332</p>
+                    <hr class="contact-divider">
+                    <p class="contact-address"><strong>Address</strong><br>
+                        Empire Suites, Along David Mark Bypass Makurdi, Benue State, Nigeria.<br>
+                        <a href="https://maps.app.goo.gl/wkHDXLaiMh2GN2nZ6" target="_blank">See map</a>
+                    </p>
+                    <hr class="contact-divider">
+                    <p class="contact-email"><strong>Email</strong><br>
+                        info@againandafresh.org<br>
+                        againandafresh@gmail.com<br>
+                        <a href="mailto:againandafresh@gmail.com">Say hello</a>
+                    </p>
                 </div>
-                <div class="contact-map">
-                    <!-- Embed Live Location -->
-                    <iframe style="width:300px;height:300px" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15814.396782597632!2d8.5247727!3d7.7260788!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x105081b6437e616b%3A0xef8945cdab55426c!2sAgain%20and%20Afresh!5e0!3m2!1sen!2sng!4v1727713540242!5m2!1sen!2sng" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
+            </div>
+            <div class="contact-map">
+                <!-- Embed Live Location -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15814.396782597632!2d8.5247727!3d7.7260788!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x105081b6437e616b%3A0xef8945cdab55426c!2sAgain%20and%20Afresh!5e0!3m2!1sen!2sng!4v1727713540242!5m2!1sen!2sng" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>
-        <!-- footer section -->
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 container border-top">
-            <div class="col-md-6 d-flex align-items-center footer-logo">
-                <a href="/" class="mb-3 me-2 mb-md-0 text-decoration-none lh-1">
-                    <img src="{% static 'images/logo_footer.png' %}" alt="Logo" width="50px">
-                </a>
-                <strong>
-                    <span class="footer-text">Sycamore 2024, Again and Afresh</span>
-                </strong>
-            </div>
-    
-            <ul class="nav col-md-4 list-unstyled d-flex social-icons" style="justify-content: space-between;">
-                <!-- Telegram -->
-                <li><a href="https://t.me/againandafresh" class="text-decoration-none"><i class="fab fa-telegram-plane"></i></a></li>
-                <!-- Instagram -->
-                <li><a href="https://www.instagram.com/again_and_afresh/" class="text-decoration-none"><i class="fab fa-instagram"></i></a></li>
-                <!-- Facebook -->
-                <li><a href="https://web.facebook.com/AgainandAfresh" class="text-decoration-none"><i class="fab fa-facebook-f"></i></a></li>
-                <!-- Gmail -->
-                <li><a href="mailto:againandafresh@gmail.com" class="text-decoration-none"><i class="fas fa-envelope"></i></a></li>
-                <!-- Twitter -->
-                <li><a href="https://twitter.com/Aaginandafresh" class="text-decoration-none"><i class="fab fa-twitter"></i></a></li>
-            </ul>
-        </footer>
-    <br>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</div>
+
+<!-- Footer Section -->
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 container border-top">
+    <div class="col-md-6 d-flex align-items-center footer-logo">
+        <a href="/" class="mb-3 me-2 mb-md-0 text-decoration-none lh-1">
+            <img src="{% static 'images/logo_footer.png' %}" alt="Logo" width="50px"> <!-- Use Django static tag -->
+        </a>
+        <strong>
+            <span class="footer-text">Sycamore 2024, Again and Afresh</span>
+        </strong>
+    </div>
+
+    <ul class="nav col-md-4 list-unstyled d-flex social-icons">
+        <!-- Telegram -->
+        <li><a href="https://t.me/againandafresh" class="text-decoration-none"><i class="fab fa-telegram-plane"></i></a></li>
+        <!-- Instagram -->
+        <li><a href="https://www.instagram.com/again_and_afresh/" class="text-decoration-none"><i class="fab fa-instagram"></i></a></li>
+        <!-- Facebook -->
+        <li><a href="https://web.facebook.com/AgainandAfresh" class="text-decoration-none"><i class="fab fa-facebook-f"></i></a></li>
+        <!-- Gmail -->
+        <li><a href="mailto:againandafresh@gmail.com" class="text-decoration-none"><i class="fas fa-envelope"></i></a></li>
+        <!-- Twitter -->
+        <li><a href="https://twitter.com/Aaginandafresh" class="text-decoration-none"><i class="fab fa-twitter"></i></a></li>
+    </ul>
+</footer>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
