@@ -136,6 +136,12 @@ if not DEBUG:    # Tell Django to copy static assets into a path called `staticf
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://sycamore.onrender.com/',
+    'http://127.0.0.1:8000/',
+    'https://localhost:8000'
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
