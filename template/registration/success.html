@@ -110,7 +110,7 @@
           </div>
     
           <!-- Main Title -->
-              <img style="width: 100%;" src="{% static 'images/card/sycamore.png' %}" alt="Logo">
+              <img style="width: 100%; margin-top: 100px !important" src="{% static 'images/card/sycamore.png' %}" alt="Logo">
     
           <!-- Name and Subtitle -->
           <div style="text-align: left;position: absolute;left: 10px;bottom: 20px;">
@@ -156,9 +156,9 @@
       </div>
 </div>
 
-     
-      <a href="{% url 'volunteer' registrant.id %}">Volunteer for Work Force</a>
- 
+    <p>
+      <a style="background-color: #007b00; color: #fff; padding: 10px 20px; border-radius: 6px; text-decoration: none;" href="{% url 'volunteer' registrant.id %}">Volunteer for Work Force</a>
+    </p><br>
    </div>
 </body>
 </html>

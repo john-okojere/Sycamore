@@ -5,6 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sycamore 2024 || Again and Afresh Church</title>
+
+<!-- SEO begins -->
+    <!-- Basic Meta Tags for SEO -->
+    <meta name="description" content="SYCAMORE, Where we grow in grace through the hearing of the Word, true worship, fellowship, and prayer, rooted in faith and the renewing power of the Holy Spirit.">
+    <meta name="keywords" content="Sycamore 2024, Again & Afresh Church, Sycamore gathering, Christian events in Nigeria, Annual church event, Faith renewal events, Christian fellowship, Prayer events in Nigeria, Worship events 2024, Sycamore camp meeting, Church conferences 2024, Spiritual renewal events, Christian worship conference, Sycamore Makurdi, Faith-building events, Church camp meeting Nigeria, Sycamore 2024 event, Sycamore conference Makurdi, Sycamore gathering of believers, Join Sycamore 2024, Spiritual growth in Sycamore, Sycamore worship experience, Sycamore fellowship 2024, Sycamore prayer event, Sycamore live stream 2024, Sycamore event countdown, Sycamore 2024 registration, Sycamore 2024 Makurdi, Nigeria, Word of God event, True worship event, Christian fellowship, Prayer and worship event, Regenerating Word of God, Fellowship with the saints, Cleansing through the Word, Worship in spirit and truth, Prayer for spiritual growth, Christian prayer and fellowship, Makurdi Christian events, Church events in Benue State, Sycamore Makurdi 2024, Again and Afresh Church Makurdi, Christian events in Nigeria 2024, Sycamore Nigeria, Christian believers, Believers gathering event, Christian worshipers in Nigeria, Faith-based events for families, Worshippers of Christ, Spiritual seekers, Prayer warriors, Christians seeking renewal, Fellowship for believers in Nigeria, Sycamore live stream, Watch Sycamore online, Stream Sycamore 2024, Sycamore YouTube stream, Sycamore 2024 online service, Waystream Sycamore, Watch Sycamore event on YouTube, Join Sycamore live, Register for Sycamore 2024, Join Sycamore gathering, Attend Sycamore 2024 event, Participate in Sycamore worship, Be part of Sycamore 2024, Sign up for Sycamore 2024, RSVP for Sycamore 2024, Christian camp meeting, Religious events 2024, Church community event, Christian conferences Nigeria, Renewal through the Word, Spiritual revival event, Church event for growth in faith, Holy Spirit renewal event, Christian worship event in Makurdi December 2024, Sycamore gathering of believers in Benue State, Attend Sycamore 2024 in Makurdi, Nigeria, Register for Sycamore prayer and worship conference, Watch Sycamore 2024 live stream online, Sycamore 2024 live worship and fellowship experience">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph (OG) Meta Tags for Social Media Preview -->
+    <meta property="og:title" content="Sycamore 2024 || Again and Afresh Church">
+    <meta property="og:description" content="SYCAMORE, Where we grow in grace through the hearing of the Word, true worship, fellowship, and prayer, rooted in faith and the renewing power of the Holy Spirit.">
+    <meta property="og:image" content="{% static 'images/card/logo.png' %}">
+    <meta property="og:url" content="https://againandafresh.org/sycamore/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Sycamore 2024 || Again and Afresh Church">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sycamore 2024 || Again and Afresh Church">
+    <meta name="twitter:description" content="SYCAMORE, Where we grow in grace through the hearing of the Word, true worship, fellowship, and prayer, rooted in faith and the renewing power of the Holy Spirit.">
+    <meta name="twitter:image" content="{% static 'images/card/logo.png' %}">
+    <meta name="twitter:site" content="@sycamore">
+
+<!-- SEO ends -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
@@ -104,10 +128,13 @@
         }
         .countdown {
             font-size: 2rem;
-            font-weight: bold;
             margin-top: 15px;
-            color: #007B00;
-            text-transform: uppercase;
+            color: #fff;
+            background-color: #007B00;
+            padding: 10px;
+            border-radius: 6px;
+            max-width: 400px;
+            width: 100%;
         }
         .countdown-labels {
             font-size: 1rem;
@@ -117,8 +144,9 @@
     
     <div class="countdown-container">
         <h1 style="text-transform: uppercase;">Countdown to Sycamore 2024</h1>
-        <p>Join us for Sycamore, where believers gather to experience renewal and growth in faith. Prepare your heart to receive the Word, worship, fellowship, and prayer. The event begins on December 26, 2024!</p>
-        <div class="countdown" id="countdown"></div>
+        <p>Join us for Sycamore, where believers gather to experience renewal and growth in faith. Prepare your heart to receive the Word, worship, fellowship, and prayer. The event begins on December 20;z
+        , 2024!</p>
+        <center><div class="countdown" id="countdown"></div></center>
         <div class="countdown-labels">
         </div>
     </div>
@@ -136,7 +164,7 @@
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             document.getElementById("countdown").innerHTML = `
-                ${days}d ${hours}h ${minutes}m ${seconds}s`;
+                ${days}<b>D</b> ${hours}<b>H</b> ${minutes}<b>M</b> ${seconds}<b>S</b>`;
 
             if (distance < 0) {
                 clearInterval(countdownInterval);

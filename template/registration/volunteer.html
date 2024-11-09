@@ -9,10 +9,10 @@
 <body>
   <div class="container">
     <h1>Would you like to volunteer for the workforce?</h1>
-    <form method="post">
+    <form  method="post">
       {% csrf_token %}
-      <button type="submit" name="volunteer" value="yes">Yes</button>
-      <button type="submit" name="volunteer" value="no">No</button>
+      <button style="background-color: #007b00; width: 45%; max-width: 250px; color: #fff; border:1px solid #007b00; margin: 10px; padding: 10px 30px; border-radius: 6px; text-decoration: none; border: none; " type="submit" name="volunteer" value="yes">Yes</button>
+      <button style="background-color: #fff; width: 45%; max-width: 250px; color: #007b00; border:1px solid #007b00; margin: 10px; padding: 10px 30px; border-radius: 6px; text-decoration: none; "type="submit" name="volunteer" value="no">No</button>
     </form>
   </div>
 </body>
