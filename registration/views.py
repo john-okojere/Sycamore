@@ -35,5 +35,30 @@ def volunteer(request, registrant_id):
     
     return render(request, 'registration/volunteer.html')
 
-def attendees(request):
-    return render(request, 'attendees.html')
+# def attendees_view(request):
+#     registrants = Registrant.objects.all()
+#     return render(request, 'attendees.html', {'registrants': registrants})
+
+def manage_registration_and_volunteers(request):
+    registrants = Registrant.objects.all()  # Get all registrants
+    volunteers = Volunteer.objects.all()    # Get all volunteers
+
+    if request.method == 'POST':
+        # Here we are assuming you are sending the registrant_id to register as a volunteer
+        registrant_id = request.POST.get('registrant_id')
+        registrant = Registrant.objects.get(id=registrant_id)
+
+        # Register the user as a volunteer
+        volunteer = Volunteer(registrant=registrant)
+        volunteer.save()
+
+        return render(request, 'registration/manage.html', {
+            'registrants': registrants,
+            'volunteers': volunteers,
+            'message': 'Thank you for volunteering!'
+        })
+
+    return render(request, 'registration/manage.html', {
+        'registrants': registrants,
+        'volunteers': volunteers,
+    })
