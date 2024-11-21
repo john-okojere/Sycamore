@@ -34,3 +34,6 @@ def volunteer(request, registrant_id):
             return render(request, 'registration/thank_you.html', {'message': 'Thank you for registering!'})
     
     return render(request, 'registration/volunteer.html')
+
+def attendees(request):
+    return render(request, 'attendees.html')
