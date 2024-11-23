@@ -44,7 +44,7 @@
 
     /* Circle Logo at the Top */
     .logo {
-        background-color: #555;
+        background-color: #1e1e1e;
         width: 80px;
         height: 80px;
         border-radius: 50%;
@@ -110,9 +110,10 @@
     <h1>Thank You for Registering!</h1>
     <p>Your ID Card:</p>
 
-<div style="display: flex; flex-wrap: wrap;gap: 1rem;margin: 1rem;justify-content: center;">
+
+    <div style="display: flex; flex-wrap: wrap;gap: 1rem;margin: 1rem;justify-content: center;">
     <div style="border:1px solid #333; padding: 2rem 1rem 3rem;position: relative;width: 300px;height: 500px;border-radius: 15px;">
-        <div class="card participants">
+        <div class="card media">
           <!-- Logo at the Top -->
           <div class="logo" style="margin-top: -55px;">
               <!-- Replace with a real icon if needed -->
@@ -125,7 +126,7 @@
           <!-- Name and Subtitle -->
           <div style="text-align: left;position: absolute;left: 10px;bottom: 20px;">
             <div class="subtitle"> {{ registrant.first_name }} {{ registrant.last_name }}</div>
-            <h2 class="name">PARTICIPANT</h2>
+            <h2 class="name">MEDIA</h2>
             <!-- Link -->
             <sub style="font-size: 10px;">againandafresh.org/sycamore2024</sub>
           </div>
@@ -139,7 +140,7 @@
       </div>
 
       <div style="border:1px solid #333; padding: 2rem 1rem 3rem;position: relative;width: 300px;height: 500px;border-radius: 15px;">
-        <div class="card participants">
+        <div class="card media">
           <!-- Logo at the Top -->
           <div class="logo" style="margin-top: -55px;">
               <!-- Replace with a real icon if needed -->
@@ -163,11 +164,6 @@
           <span class="footer-text">Sycamore'24</span>
       </div>
       </div>
-</div>
-
-    <p>
-      <a style="background-color: #007b00; color: #fff; padding: 10px 20px; border-radius: 6px; text-decoration: none;" href="{% url 'volunteer' registrant.id %}">Volunteer for Work Force</a>
-    </p><br>
    </div>
 </body>
 </html>

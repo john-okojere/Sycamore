@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import RegistrantForm
 from .models import Registrant
 
+#participant - p
 def register(request):
     if request.method == 'POST':
         form = RegistrantForm(request.POST)
@@ -16,6 +17,47 @@ def register(request):
 def success(request, registrant_id):
     registrant = Registrant.objects.get(id=registrant_id)
     return render(request, 'registration/success.html', {'registrant': registrant})
+
+
+#pastors - pst
+def pst_register(request):
+    if request.method == 'POST':
+        form = RegistrantForm(request.POST)
+        if form.is_valid():
+            registrant = form.save()
+            return redirect('pst_success', registrant_id=registrant.id)
+    else:
+        form = RegistrantForm()
+    
+    return render(request, 'registration/pst-register.html', {'form': form})
+
+def pst_success(request, registrant_id):
+    registrant = Registrant.objects.get(id=registrant_id)
+    return render(request, 'registration/pst-success.html', {'registrant': registrant})
+
+
+#media - media
+def media_register(request):
+    if request.method == 'POST':
+        form = RegistrantForm(request.POST)
+        if form.is_valid():
+            registrant = form.save()
+            return redirect('media_success', registrant_id=registrant.id)
+    else:
+        form = RegistrantForm()
+    
+    return render(request, 'registration/media-register.html', {'form': form})
+
+def media_success(request, registrant_id):
+    registrant = Registrant.objects.get(id=registrant_id)
+    return render(request, 'registration/media-success.html', {'registrant': registrant})
+
+
+
+
+
+
+
 
 
 from .models import Volunteer
