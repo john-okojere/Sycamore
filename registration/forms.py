@@ -58,7 +58,7 @@ class InHouseForm(forms.ModelForm):
                 ('media', 'New Wine Media'),
                 ('follow up', 'Labour Room (follow_up)'),
                 ('decoration', 'Decoration'),
-                ('welfare', 'Taste & See'),
+                ('taste and see', 'Taste & See'),
                 ('pastoral', 'Pastoral Care'),
             ])
         }

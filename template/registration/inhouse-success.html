@@ -12,7 +12,8 @@ InHouse Registration Success
 
     <div class="card mx-auto mt-4" style="width: 18rem;">
         <div class="card-body text-center">
-            <h5 class="card-title">{{ inhouse_member.first_name }} {{ inhouse_member.last_name }}</h5>
+            <h5 style="text-transform: uppercase;"class="card-title">{{ inhouse_member.first_name }} {{ inhouse_member.last_name }}</h5>
+            <hr>
             <p class="card-text"><strong>Email:</strong> {{ inhouse_member.email }}</p>
             <p class="card-text"><strong>Phone:</strong> {{ inhouse_member.phone_number }}</p>
             <p class="card-text"><strong>Department:</strong> {{ inhouse_member.department|capfirst }}</p>
@@ -21,7 +22,7 @@ InHouse Registration Success
 
     <div class="mt-4">
         <p>You can now proceed to other activities. Thank you for being part of this event!</p>
-        <a href="{% url 'inhouse_register' %}" class="btn btn-primary">Register Another Member</a>
+        <a href="{% url 'inhouse_register' %}" class="btn btn-primary">Register Another Member</a><br>
         <a href="{% url 'monitor_registrations' %}" class="btn btn-secondary">Monitor Registrations</a>
     </div>
 </div>
