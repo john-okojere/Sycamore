@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+InHouse Registration Success
+{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1 class="text-success">Registration Successful!</h1>
+    <p class="mt-3">Thank you, <strong>{{ inhouse_member.first_name }} {{ inhouse_member.last_name }}</strong>, for registering as an <strong>InHouse Member</strong>.</p>
+    <p>Your department is: <strong>{{ inhouse_member.department|capfirst }}</strong>.</p>
+
+    <div class="card mx-auto mt-4" style="width: 18rem;">
+        <div class="card-body text-center">
+            <h5 class="card-title">{{ inhouse_member.first_name }} {{ inhouse_member.last_name }}</h5>
+            <p class="card-text"><strong>Email:</strong> {{ inhouse_member.email }}</p>
+            <p class="card-text"><strong>Phone:</strong> {{ inhouse_member.phone_number }}</p>
+            <p class="card-text"><strong>Department:</strong> {{ inhouse_member.department|capfirst }}</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <p>You can now proceed to other activities. Thank you for being part of this event!</p>
+        <a href="{% url 'inhouse_register' %}" class="btn btn-primary">Register Another Member</a>
+        <a href="{% url 'monitor_registrations' %}" class="btn btn-secondary">Monitor Registrations</a>
+    </div>
+</div>
+{% endblock %}
