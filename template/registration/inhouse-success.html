@@ -11,13 +11,163 @@ InHouse Registration Success
     <p>Your department is: <strong>{{ inhouse_member.department|capfirst }}</strong>.</p>
 
     <div class="card mx-auto mt-4" style="width: 18rem;">
-        <div class="card-body text-center">
-            <h5 style="text-transform: uppercase;"class="card-title">{{ inhouse_member.first_name }} {{ inhouse_member.last_name }}</h5>
-            <hr>
-            <p class="card-text"><strong>Email:</strong> {{ inhouse_member.email }}</p>
-            <p class="card-text"><strong>Phone:</strong> {{ inhouse_member.phone_number }}</p>
-            <p class="card-text"><strong>Department:</strong> {{ inhouse_member.department|capfirst }}</p>
-        </div>
+        <style>
+            /* General Reset */
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family: 'Poppins';
+            }
+            .head-steward {
+              background-color: #d5ff00;
+            }
+            .pastor {
+              background-color: #360701;
+            }
+            .media {
+              background-color: #1e1e1e;
+            }
+            .participants {
+              background-color: #002106;
+            }
+            .card {
+                color: #fff;
+                width: 100%;
+                height: 100%;
+                border-radius: 15px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+                margin-top: 10px;
+                position: relative;
+            }
+        
+            /* Circle Logo at the Top */
+            .logo {
+                background-color: #1e1e1e;
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+        
+            .logo img {
+                width: 100% !important;
+            }
+        
+            /* Main Text */
+            .title {
+                font-size: 36px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+        
+            /* Subtitle Text */
+            .subtitle {
+                font-size: 12px;
+                letter-spacing: 1px;
+                margin-bottom: 0px;
+            }
+        
+            .name {
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+        
+            /* Link */
+            .link {
+                font-size: 12px;
+                color: #ccc;
+                text-decoration: none;
+                margin-bottom: 20px;
+            }
+        
+            /* Footer Text */
+            .footer {
+                font-size: 12px;
+                color: #000;
+                position: absolute;
+                bottom: 10px;
+                left: 2px;
+                width: 100%;
+                text-align: center;
+            }
+        
+            .footer-text {
+                display: inline-block;
+                margin: 0 10px;
+                color:#000;
+                font-weight: 900;
+                font-size: 10px;
+            }
+        
+            </style>
+          <div class="container" style="text-align: center;">
+            <h1>Thank You for Registering!</h1>
+            <p>Your ID Card:</p>
+        
+        
+            <div style="display: flex; flex-wrap: wrap;gap: 1rem;margin: 1rem;justify-content: center;">
+            <div style="border:1px solid #333; padding: 2rem 1rem 3rem;position: relative;width: 300px;height: 500px;border-radius: 15px;">
+                <div class="card media">
+                  <!-- Logo at the Top -->
+                  <div class="logo" style="margin-top: -55px;">
+                      <!-- Replace with a real icon if needed -->
+                      <img src="{% static 'images/card/logo.png' %}" alt="Logo">
+                  </div>
+        
+                  <!-- Main Title -->
+                      <img style="width: 100%; margin-top: 100px !important" src="{% static 'images/card/sycamore.png' %}" alt="Logo">
+        
+                  <!-- Name and Subtitle -->
+                  <div style="text-align: left;position: absolute;left: 10px;bottom: 20px;">
+                    <div class="subtitle"> {{ registrant.first_name }} {{ registrant.last_name }}</div>
+                    <h2 class="name">MEDIA</h2>
+                    <!-- Link -->
+                    <sub style="font-size: 10px;">againandafresh.org/sycamore2024</sub>
+                  </div>
+                  <!-- Footer Text -->
+                </div>
+                <div class="footer">
+                  <span class="footer-text">Sycamore'24</span>
+                  <span class="footer-text">Sycamore'24</span>
+                  <span class="footer-text">Sycamore'24</span>
+              </div>
+              </div>
+        
+              <div style="border:1px solid #333; padding: 2rem 1rem 3rem;position: relative;width: 300px;height: 500px;border-radius: 15px;">
+                <div class="card media">
+                  <!-- Logo at the Top -->
+                  <div class="logo" style="margin-top: -55px;">
+                      <!-- Replace with a real icon if needed -->
+                      <img src="{% static 'images/card/logo.png' %}" alt="Logo">
+                  </div>
+        
+                  <!-- Main Title -->
+                  <div style="display: flex;justify-content: space-between;align-items: center;gap: 1rem;">
+                    <img style="height: 100%;" src="{% static 'images/card/sycamoreH.png' %}" alt="Logo">
+                    <img style="width: 100%; max-width: 150px;height: fit-content;" src="{{ registrant.qr_code.url }}" alt="Logo">
+                  </div>
+                  <!-- Name and Subtitle -->
+                  <div style="background-color: #fff;position: absolute;right: 0px;bottom: 0px; height: 50px;width: 100px;display:flex;align-items:center;justify-content: center;border-top-left-radius: 15px;">
+                    <div class="subtitle" style="color: #000;font-weight: 900;"> {{ registrant.id }}</div>
+                   </div>
+                  <!-- Footer Text -->
+                </div>
+                <div class="footer">
+                  <span class="footer-text">Sycamore'24</span>
+                  <span class="footer-text">Sycamore'24</span>
+                  <span class="footer-text">Sycamore'24</span>
+              </div>
+              </div>
+           </div>
     </div>
 
     <div class="mt-4">
