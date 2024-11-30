@@ -74,7 +74,13 @@ class InHouse(models.Model):
             ('ushering', 'Ushering'),
             ('sanctuary', 'Sanctuary'),
             ('spirit&truth', 'Spirit & Truth'),
-            ('technical', 'Technical')
+            ('technical', 'Technical'),
+            ('light&power', 'Light & Power'),
+            ('media', 'New Wine Media'),
+            ('follow up', 'Labour Room (follow_up)'),
+            ('decoration', 'Decoration'),
+            ('welfare', 'Taste & See'),
+            ('pastoral', 'Pastoral Care'),
         ]
     )
     qr_code = models.ImageField(upload_to='qrcodes/', blank=True)
