@@ -52,13 +52,13 @@ class InHouseForm(forms.ModelForm):
             'department': forms.Select(choices=[
                 ('ushering', 'Ushering'),
                 ('sanctuary', 'Sanctuary'),
-                ('spirit&truth', 'Spirit & Truth'),
+                ('spirit & Truth', 'Spirit & Truth'),
                 ('technical', 'Technical'),
-                ('light&power', 'Light & Power'),
+                ('Light & Power', 'Light & Power'),
                 ('media', 'New Wine Media'),
                 ('follow up', 'Labour Room (follow_up)'),
                 ('decoration', 'Decoration'),
-                ('taste and see', 'Taste & See'),
+                ('welfare', 'Taste & See'),
                 ('pastoral', 'Pastoral Care'),
             ])
         }

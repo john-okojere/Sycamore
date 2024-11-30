@@ -10,7 +10,10 @@ class Registrant(models.Model):
     country = models.CharField(max_length=100)
     accommodation = models.CharField(
         max_length=3, 
-        choices=[('yes', 'Yes'), ('no', 'No')], 
+        choices=[
+            ('yes', 'Yes'), 
+            ('no', 'No')
+        ], 
         verbose_name="Do you need Accommodation"
     )
     marital_status = models.CharField(
@@ -19,7 +22,7 @@ class Registrant(models.Model):
             ('single', 'Single'),
             ('married', 'Married'),
             ('divorced', 'Divorced'),
-            ('widowed', 'Widowed')
+            ('widowed', 'Widowed'),
         ]
     )
     qr_code = models.ImageField(upload_to='qrcodes/', blank=True)
@@ -73,9 +76,9 @@ class InHouse(models.Model):
         choices=[
             ('ushering', 'Ushering'),
             ('sanctuary', 'Sanctuary'),
-            ('spirit&truth', 'Spirit & Truth'),
+            ('spirit & Truth', 'Spirit & Truth'),
             ('technical', 'Technical'),
-            ('light&power', 'Light & Power'),
+            ('Light & Power', 'Light & Power'),
             ('media', 'New Wine Media'),
             ('follow up', 'Labour Room (follow_up)'),
             ('decoration', 'Decoration'),
