@@ -80,9 +80,17 @@ WSGI_APPLICATION = 'sycamore.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Sycamore',
+        'USER': 'admin',
+        'PASSWORD': 'trjc0aEP',
+        'HOST':'mysql-188312-0.cloudclusters.net',
+        'PORT':'10194',
     }
 }
 
