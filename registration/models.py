@@ -78,7 +78,7 @@ class InHouse(models.Model):
             ('sanctuary', 'Sanctuary'),
             ('spirit & Truth', 'Spirit & Truth'),
             ('technical', 'Technical'),
-            ('Light & Power', 'Light & Power'),
+            ('light & Power', 'Light & Power'),
             ('media', 'New Wine Media'),
             ('follow up', 'Labour Room (follow_up)'),
             ('decoration', 'Decoration'),

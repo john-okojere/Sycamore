@@ -54,7 +54,7 @@ class InHouseForm(forms.ModelForm):
                 ('sanctuary', 'Sanctuary'),
                 ('spirit & Truth', 'Spirit & Truth'),
                 ('technical', 'Technical'),
-                ('Light & Power', 'Light & Power'),
+                ('light and Power', 'Light & Power'),
                 ('media', 'New Wine Media'),
                 ('follow up', 'Labour Room (follow_up)'),
                 ('decoration', 'Decoration'),
