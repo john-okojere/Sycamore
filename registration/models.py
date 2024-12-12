@@ -84,6 +84,8 @@ class InHouse(models.Model):
             ('decoration', 'Decoration'),
             ('welfare', 'Taste & See'),
             ('pastoral', 'Pastoral Care'),
+            ('pastor', 'Pastor'),
+            ('special Guest', 'Special Guest'),
         ]
     )
     qr_code = models.ImageField(upload_to='qrcodes/', blank=True)

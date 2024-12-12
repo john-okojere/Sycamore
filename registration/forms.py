@@ -60,6 +60,8 @@ class InHouseForm(forms.ModelForm):
                 ('decoration', 'Decoration'),
                 ('welfare', 'Taste & See'),
                 ('pastoral', 'Pastoral Care'),
+                ('pastor', 'Pastor'),
+                ('special Guest', 'Special Guest'),
             ])
         }
 
