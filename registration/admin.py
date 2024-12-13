@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Registrant, Volunteer, InHouse
+from .models import Minister, Registrant, Volunteer, InHouse
 
 @admin.register(Registrant)
 class RegistrantAdmin(admin.ModelAdmin):
@@ -17,3 +17,7 @@ class InHouseAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'email', 'phone_number', 'department')
     list_filter = ('department',)
     search_fields = ('first_name', 'last_name', 'email', 'phone_number')
+
+@admin.register(Minister)
+class MinisterAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name')

@@ -119,3 +119,39 @@ class InHouse(models.Model):
         self.qr_code.save(filename, File(buffer), save=False)
 
         super().save(*args, **kwargs)
+
+
+class Minister(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    qr_code = models.ImageField(upload_to='qrcodes/', blank=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+    def save(self, *args, **kwargs):
+        import qrcode
+        from io import BytesIO
+        from django.core.files import File
+
+        if not self.id:
+            super().save(*args, **kwargs)
+
+        
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(f"Minister's ID: {self.id}, Name: {self.first_name} {self.last_name}")
+        qr.make(fit=True)
+
+        img = qr.make_image(fill='black', back_color='white')
+
+        buffer = BytesIO()
+        img.save(buffer, 'PNG')
+        filename = f'{self.first_name}_{self.id}_qr.png'
+        self.qr_code.save(filename, File(buffer), save=False)
+
+        super().save(*args, **kwargs)
