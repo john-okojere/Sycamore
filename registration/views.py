@@ -128,10 +128,7 @@ def participant_cards(request):
     registrant = Registrant.objects.all()    
     return render(request, 'registration/participantcards.html' , {'registrant':registrant})
 
-def minister_cards(request):
-    registrant = Minister.objects.all()    
-    return render(request, 'registration/ministercards.html' , {'registrant':registrant})
 
 def inhouse_cards(request):
-    registrant = Registrant.objects.all()    
+    registrant = InHouse.objects.all()    
     return render(request, 'registration/inhousecards.html' , {'registrant':registrant})
