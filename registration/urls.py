@@ -15,9 +15,3 @@ urlpatterns = [
     path('monitor/', views.monitor_registrations, name='monitor_registrations'),  # Monitor all registrations
     path('participantcards/', views.participant_cards, name='participant_cards'),  # View all registration cards
     path('inhouse/', views.inhouse_cards, name='inhouse_cards'),  # View all registration cards
-    path('ministercards/', views.minister_cards, name='minister_cards'),  # View all registration
-]
-
-
-
-
