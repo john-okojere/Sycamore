@@ -39,7 +39,7 @@ class Registrant(models.Model):
         return '/media/QRCODE/{}'.format(basename)
 
     def save(self, *args, **kwargs):
-        self.qrcode()
+        self.qr_code()
         if self.accomodation.title() == "Yes":
             self.role = "Camper"
         else:
@@ -62,6 +62,7 @@ class Volunteer(models.Model):
 
 
 class InHouse(models.Model):
+    uid = models.UUIDField( default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -83,38 +84,25 @@ class InHouse(models.Model):
             ('special Guest', 'Special Guest'),
         ]
     )
-    qr_code = models.ImageField(upload_to='qrcodes/', blank=True)
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name} - {self.department}'
+    def qr_code(self):
+        qrcode = make(self.uid)
+        basename = str(self.first_name) + '_QR_CODE.png'
+        directory = "media/QRCODE/"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        qrcode.save('media/QRCODE/{}'.format(basename))
+        return '/media/QRCODE/{}'.format(basename)
 
     def save(self, *args, **kwargs):
-        import qrcode
-        from io import BytesIO
-        from django.core.files import File
+        self.qr_code()
+        if self.accomodation.title() == "Yes":
+            self.role = "Camper"
+        else:
+            self.role = 'Participant'
+        return super().save(*args, **kwargs)
 
-        if not self.id:
-            super().save(*args, **kwargs)  # Ensure the object has an ID before generating the QR code
-
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=10,
-            border=4,
-        )
-        qr.add_data(f'InHouse ID: {self.id}, Name: {self.first_name} {self.last_name}, Department: {self.department}')
-        qr.make(fit=True)
-
-        img = qr.make_image(fill='black', back_color='white')
-
-        # Save QR code image to a BytesIO buffer
-        buffer = BytesIO()
-        img.save(buffer, 'PNG')
-        filename = f'{self.first_name}_{self.id}_qr.png'
-        self.qr_code.save(filename, File(buffer), save=False)
-
-        super().save(*args, **kwargs)
-
+    def __str__(self):
+        return f'{self.first_name} {self.last_name} ({self.department})'
 
 class Minister(models.Model):
     first_name = models.CharField(max_length=100)

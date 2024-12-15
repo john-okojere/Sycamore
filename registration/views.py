@@ -130,5 +130,5 @@ def participant_cards(request):
 
 
 def inhouse_cards(request):
-    registrant = InHouse.objects.all()    
-    return render(request, 'registration/inhousecards.html' , {'registrant':registrant})
+    inhouse_member = InHouse.objects.all()   
+    return render(request, 'registration/inhousecards.html' , {'inhouse_member':inhouse_member})

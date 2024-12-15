@@ -9,7 +9,7 @@
    <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <title>Participants Cards</title>
+       <title>Inhouse Cards</title>
        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
    </head>
    <body>
@@ -22,17 +22,47 @@
            font-family: 'Poppins';
        }
        .head-steward {
-         background-color: #d5ff00;
-       }
-       .pastor {
-         background-color: #360701;
-       }
-       .media {
-         background-color: #1e1e1e;
-       }
-       .participants {
-         background-color: #002106;
-       }
+              background-color: #e8960e;
+            }
+            .pastor {
+              background-color: #360701;
+            }
+            .special {
+              background-color: #787a00;
+            }
+            .media {
+              background-color: #134e4a;
+            }
+            .ushering {
+              background-color: #1e3a8a;
+            }
+            .sanctuary {
+              background-color: #065f46;
+            }
+            .spirit {
+              background-color: #4c1d95;
+            }
+            .technical {
+              background-color: #374151;
+            }
+            .light power {
+              background-color: #7f1d1d;
+            }
+            .follow {
+              background-color: #7c2d12;
+            }
+            .decoration {
+              background-color: #581c87;
+            }
+            .welfare {
+              background-color: #3b4219;
+            }
+            .pastoral {
+              background-color: #1e293b;
+            }
+            .participants {
+              background-color: #002106;
+            }
        .card {
            color: #fff;
            width: 100%;
@@ -112,12 +142,12 @@
    
        </style>
      <div class="container" style="text-align: center;">
-       <h1>Printing</h1>
-       <p>Participants Cards:</p>
-       {% for registrant in registrant  %}
+      <h1>Printing</h1>
+      <p>In House Cards:</p>
+       {% for inhouse_member in inhouse_member %}
    <div style="display: flex; flex-wrap: wrap;gap: 1rem;margin: 1rem;justify-content: center;">
        <div style="border:1px solid #333; padding: 2rem 1rem 3rem;position: relative;width: 300px;height: 500px;border-radius: 15px;">
-           <div class="card participants">
+           <div class="card {{ inhouse_member.department }}">
              <!-- Logo at the Top -->
              <div class="logo" style="margin-top: -55px;">
                  <!-- Replace with a real icon if needed -->
@@ -129,8 +159,8 @@
    
              <!-- Name and Subtitle -->
              <div style="text-align: left;position: absolute;left: 10px;bottom: 20px;">
-               <div class="subtitle"> {{ registrant.first_name }} {{ registrant.last_name }}</div>
-               <h2 class="name">PARTICIPANT</h2>
+               <div class="subtitle" style="text-transform: capitalize;"> {{ inhouse_member.first_name }} {{ inhouse_member.last_name }}</div>
+               <h2 class="name" style="text-transform: capitalize;">{{ inhouse_member.department }}</h2>
                <!-- Link -->
                <sub style="font-size: 10px;">againandafresh.org/sycamore2024</sub>
              </div>
@@ -144,7 +174,7 @@
          </div>
    
          <div style="border:1px solid #333; padding: 2rem 1rem 3rem;position: relative;width: 300px;height: 500px;border-radius: 15px;">
-           <div class="card participants">
+           <div class="card {{ inhouse_member.department }}">
              <!-- Logo at the Top -->
              <div class="logo" style="margin-top: -55px;">
                  <!-- Replace with a real icon if needed -->
@@ -154,11 +184,11 @@
              <!-- Main Title -->
              <div style="display: flex;justify-content: space-between;align-items: center;gap: 1rem;">
                <img style="height: 100%;" src="{% static 'images/card/sycamoreH.png' %}" alt="Logo">
-               <img style="width: 100%; max-width: 150px;height: fit-content;" src="{{ registrant.qr_code }}" alt="QR">
+               <img style="width: 100%; max-width: 150px;height: fit-content;" src="{{ inhouse_member.qr_code }}" alt="QR">
              </div>
              <!-- Name and Subtitle -->
              <div style="background-color: #fff;position: absolute;right: 0px;bottom: 0px; height: 50px;width: 100px;display:flex;align-items:center;justify-content: center;border-top-left-radius: 15px;">
-               <div class="subtitle" style="color: #000;font-weight: 900;"> {{ registrant.id }}</div>
+               <div class="subtitle" style="color: #000;font-weight: 900;"> {{ inhouse_member.id }}</div>
               </div>
              <!-- Footer Text -->
            </div>

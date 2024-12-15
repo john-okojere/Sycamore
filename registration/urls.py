@@ -14,4 +14,5 @@ urlpatterns = [
     path('manage/', views.manage_registration_and_volunteers, name='manage_registrations'),  # Manage registrations and volunteers
     path('monitor/', views.monitor_registrations, name='monitor_registrations'),  # Monitor all registrations
     path('participantcards/', views.participant_cards, name='participant_cards'),  # View all registration cards
-    path('inhouse/', views.inhouse_cards, name='inhouse_cards'),  # View all registration cards
+    path('inhousecards/', views.inhouse_cards, name='inhouse_cards'),  # View all registration cards
+]
