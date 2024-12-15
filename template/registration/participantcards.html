@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Success</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* General Reset */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins';
+    }
+    .head-steward {
+      background-color: #d5ff00;
+    }
+    .pastor {
+      background-color: #360701;
+    }
+    .media {
+      background-color: #1e1e1e;
+    }
+    .participants {
+      background-color: #002106;
+    }
+    .card {
+        color: #fff;
+        width: 100%;
+        height: 100%;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        margin-top: 10px;
+        position: relative;
+    }
+
+    /* Circle Logo at the Top */
+    .logo {
+        background-color: #360701;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .logo img {
+        width: 100% !important;
+    }
+
+    /* Main Text */
+    .title {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    /* Subtitle Text */
+    .subtitle {
+        font-size: 12px;
+        letter-spacing: 1px;
+        margin-bottom: 0px;
+    }
+
+    .name {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    /* Link */
+    .link {
+        font-size: 12px;
+        color: #ccc;
+        text-decoration: none;
+        margin-bottom: 20px;
+    }
+
+    /* Footer Text */
+    .footer {
+        font-size: 12px;
+        color: #000;
+        position: absolute;
+        bottom: 10px;
+        left: 2px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .footer-text {
+        display: inline-block;
+        margin: 0 10px;
+        color:#000;
+        font-weight: 900;
+        font-size: 10px;
+    }
+
+    </style>
+</head>
+<body>
+  <div class="container"  style="text-align: center;">
+    <h1>Thank You for Registering!</h1>
+    <p>Your ID Card:</p>
+   {% for registrant in registrant  %}
+   
+   <div class="row justify-content-center">
+    <!-- Card 1 -->
+    <!-- <div class="col-md-4">
+      <div class="card participants">
+        <div class="logo">
+          <img src="{% static 'images/card/logo.png' %}" alt="Logo">
+        </div>
+        <img class="mt-3" style="width: 100%;" src="{% static 'images/card/sycamore.png' %}" alt="Sycamore">
+        <div class="text-center">
+          <p class="subtitle mt-3">{{ registrant.first_name }} {{ registrant.last_name }}</p>
+          <h2>PARTICIPANT</h2>
+        </div>
+        <div class="footer">
+          <span class="footer-text">Sycamore'24</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 with QR Code -->
+    <div class="col-md-4">
+      <div class="card participants">
+        <div class="logo">
+          <img src="{% static 'images/card/logo.png' %}" alt="Logo">
+        </div>
+        <div class="qr-code-section">
+          <img src="{% static 'images/card/sycamoreH.png' %}" alt="Sycamore Horizontal">
+          <img src="{{ registrant.qr_code }}" alt="QR Code">
+        </div>
+        <div class="footer">
+          <span class="footer-text">Sycamore'24</span>
+        </div>
+      </div>
+    </div>
+  </div> -->
+   {% endfor %}
+
+    <!-- Volunteer Button -->
+  </div>
+</body>
+</html>

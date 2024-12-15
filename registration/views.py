@@ -123,3 +123,7 @@ def monitor_registrations(request):
         'volunteers': volunteers,
         'inhouse_members': inhouse_members,
     })
+
+def participant_cards(request):
+    registrant = Registrant.objects.all()    
+    return render(request, 'registration/participantcards.html' , {'registrant':registrant})

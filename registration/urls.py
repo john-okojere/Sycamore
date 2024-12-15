@@ -13,4 +13,11 @@ urlpatterns = [
     path('inhouse_success/<int:inhouse_id>/', views.inhouse_success, name='inhouse_success'),  # InHouse success page
     path('manage/', views.manage_registration_and_volunteers, name='manage_registrations'),  # Manage registrations and volunteers
     path('monitor/', views.monitor_registrations, name='monitor_registrations'),  # Monitor all registrations
+    path('participantcards/', views.participant_cards, name='participant_cards'),  # View all registration cards
+    path('participantcards/', views.participant_cards, name='participant_cards'),  # View all registration cards
+    path('participantcards/', views.participant_cards, name='participant_cards'),  # View all registration
 ]
+
+
+
+
