@@ -95,7 +95,7 @@ class InHouse(models.Model):
 
     def save(self, *args, **kwargs):
         self.qr_code()
-        if self.accomodation.title() == "Yes":
+        if self.accommodation.title() == "Yes":
             self.role = "Camper"
         else:
             self.role = 'Participant'
