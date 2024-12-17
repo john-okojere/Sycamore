@@ -119,113 +119,113 @@
     a {
       color : White;
     }
+    .table-responsive {
+        overflow-x: auto;
+    }
 </style>
 
 <div class="table-container">
     <h1 class="h1"><b>Monitor Registration</b></h1>
-<br>
-  <br>
-  <br>
+    <br><br><br>
   
-</be>
     <!-- Registrants Table -->
     <h1>All Registrants</h1>
-    <table id="registrantsTable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Address</th>
-                <th>State</th>
-                <th>Country</th>
-                <th>Accommodation</th>
-                <th>Marital Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for registrant in registrants %}
-            <tr>
-                <td>{{ registrant.first_name }}</td>
-                <td>{{ registrant.last_name }}</td>
-                <td>{{ registrant.email }}</td>
-                <td>{{ registrant.phone_number }}</td>
-                <td>{{ registrant.address }}</td>
-                <td>{{ registrant.state }}</td>
-                <td>{{ registrant.country }}</td>
-                <td>{{ registrant.accommodation }}</td>
-                <td>{{ registrant.marital_status }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-<br>
-<br>
-<hr>
-<br>
-<br>
+    <div class="table-responsive">
+        <table id="registrantsTable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th>State</th>
+                    <th>Country</th>
+                    <th>Accommodation</th>
+                    <th>Marital Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registrant in registrants %}
+                <tr>
+                    <td>{{ registrant.first_name }}</td>
+                    <td>{{ registrant.last_name }}</td>
+                    <td>{{ registrant.email }}</td>
+                    <td>{{ registrant.phone_number }}</td>
+                    <td>{{ registrant.address }}</td>
+                    <td>{{ registrant.state }}</td>
+                    <td>{{ registrant.country }}</td>
+                    <td>{{ registrant.accommodation }}</td>
+                    <td>{{ registrant.marital_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br><br><hr><br><br>
+
     <!-- Volunteers Table -->
     <h1>All Volunteers</h1>
-    <table id="volunteersTable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Address</th>
-                <th>State</th>
-                <th>Country</th>
-                <th>Accommodation</th>
-                <th>Marital Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for volunteer in volunteers %}
-            <tr>
-                <td>{{ volunteer.registrant.first_name }}</td>
-                <td>{{ volunteer.registrant.last_name }}</td>
-                <td>{{ volunteer.registrant.email }}</td>
-                <td>{{ volunteer.registrant.phone_number }}</td>
-                <td>{{ volunteer.registrant.address }}</td>
-                <td>{{ volunteer.registrant.state }}</td>
-                <td>{{ volunteer.registrant.country }}</td>
-                <td>{{ volunteer.registrant.accommodation }}</td>
-                <td>{{ volunteer.registrant.marital_status }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-<br>
-<br>
-<hr>
-<br>
-<br>
+    <div class="table-responsive">
+        <table id="volunteersTable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th>State</th>
+                    <th>Country</th>
+                    <th>Accommodation</th>
+                    <th>Marital Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for volunteer in volunteers %}
+                <tr>
+                    <td>{{ volunteer.registrant.first_name }}</td>
+                    <td>{{ volunteer.registrant.last_name }}</td>
+                    <td>{{ volunteer.registrant.email }}</td>
+                    <td>{{ volunteer.registrant.phone_number }}</td>
+                    <td>{{ volunteer.registrant.address }}</td>
+                    <td>{{ volunteer.registrant.state }}</td>
+                    <td>{{ volunteer.registrant.country }}</td>
+                    <td>{{ volunteer.registrant.accommodation }}</td>
+                    <td>{{ volunteer.registrant.marital_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br><br><hr><br><br>
+
     <!-- InHouse Members Table -->
     <h1>All InHouse Members</h1>
-    <table id="inhouseTable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Department</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for inhouse in inhouse_members %}
-            <tr>
-                <td>{{ inhouse.first_name }}</td>
-                <td>{{ inhouse.last_name }}</td>
-                <td>{{ inhouse.email }}</td>
-                <td>{{ inhouse.phone_number }}</td>
-                <td>{{ inhouse.department|capfirst }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table id="inhouseTable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Department</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inhouse in inhouse_members %}
+                <tr>
+                    <td>{{ inhouse.first_name }}</td>
+                    <td>{{ inhouse.last_name }}</td>
+                    <td>{{ inhouse.email }}</td>
+                    <td>{{ inhouse.phone_number }}</td>
+                    <td>{{ inhouse.department|capfirst }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
