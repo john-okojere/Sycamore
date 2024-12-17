@@ -94,12 +94,10 @@ class InHouse(models.Model):
         return '/media/QRCODE/{}'.format(basename)
 
     def save(self, *args, **kwargs):
-        self.qr_code()
-        if self.accommodation.title() == "Yes":
-            self.role = "Camper"
-        else:
-            self.role = 'Participant'
-        return super().save(*args, **kwargs)
+        self.qr_code()  
+        super().save(*args, **kwargs)
+
+
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} ({self.department})'
