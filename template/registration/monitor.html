@@ -17,7 +17,21 @@
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 
 <style>
-    /* General Table Styling */
+    /* General Styling */
+    body {
+        background-color: #002b20; /* Dark Green Background */
+        color: #ffffff; /* White text for better contrast */
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1, h2 {
+        color: #a4d4ae; /* Lighter green for headers */
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
     .table-container {
         padding: 20px;
     }
@@ -27,47 +41,75 @@
         margin: 20px 0;
         border-collapse: collapse;
         font-family: Arial, sans-serif;
+        background-color: #004832; /* Dark green for table background */
+        color: #ffffff; /* White text for contrast */
+        border-radius: 8px; /* Rounded corners for tables */
+        overflow: hidden;
     }
 
     .table thead th {
-        background-color: #007bff; /* Bootstrap blue */
-        color: white;
+        background-color: #006644; /* Slightly lighter dark green for header */
+        color: #ffffff;
         padding: 10px;
         text-align: center;
+        font-weight: bold;
     }
 
     .table tbody td {
         padding: 8px;
-        border: 1px solid #ddd;
+        border: 1px solid #004832; /* Match table border with table background */
         text-align: center;
     }
 
     .table tbody tr:nth-child(even) {
-        background-color: #f9f9f9;
+        background-color: #003826; /* Alternate row color */
     }
 
     .table tbody tr:hover {
-        background-color: #f1f1f1;
+        background-color: #00593f; /* Highlighted row on hover */
     }
 
+    /* DataTables Button Styling */
     .dt-button {
-        background-color: #007bff;
-        color: white;
+        background-color: #007f5f; /* Accent green for buttons */
+        color: #ffffff;
         border: none;
-        padding: 6px 12px;
+        padding: 8px 15px;
         font-size: 14px;
         border-radius: 5px;
         cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
     .dt-button:hover {
-        background-color: #0056b3;
+        background-color: #005f47; /* Slightly darker green on hover */
     }
 
-    h1, h2 {
-        color: #333;
-        text-align: center;
-        margin-bottom: 20px;
+    /* Additional Styling */
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        background: #007f5f;
+        color: #fff !important;
+        border-radius: 4px;
+        padding: 6px 12px;
+        margin: 2px;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #005f47;
+    }
+
+    .dataTables_wrapper .dataTables_length, 
+    .dataTables_wrapper .dataTables_filter {
+        color: #ffffff;
+    }
+
+    .dataTables_wrapper .dataTables_length select,
+    .dataTables_wrapper .dataTables_filter input {
+        background-color: #003826;
+        color: #ffffff;
+        border: 1px solid #005f47;
+        border-radius: 4px;
+        padding: 4px 8px;
     }
 </style>
 
