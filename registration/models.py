@@ -5,20 +5,21 @@ import os
 
 class Registrant(models.Model):
     uid = models.UUIDField( default=uuid.uuid4, editable=False)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=15)
-    address = models.CharField(max_length=255)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100,null=True, blank=True)
+    email = models.EmailField(unique=True, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
+    state = models.CharField(max_length=100, null=True, blank=True)
+    country = models.CharField(max_length=100   , null=True, blank=True)
     accommodation = models.CharField(
         max_length=3, 
         choices=[
             ('yes', 'Yes'), 
             ('no', 'No')
         ], 
-        verbose_name="Do you need Accommodation"
+        verbose_name="Do you need Accommodation",
+        null=True, blank=True
     )
     marital_status = models.CharField(
         max_length=10, 
@@ -27,7 +28,8 @@ class Registrant(models.Model):
             ('married', 'Married'),
             ('divorced', 'Divorced'),
             ('widowed', 'Widowed'),
-        ]
+        ],
+        null=True, blank=True
     )
     def qr_code(self):
         qrcode = make(self.uid)
