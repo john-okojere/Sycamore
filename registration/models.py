@@ -11,7 +11,7 @@ class Registrant(models.Model):
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     state = models.CharField(max_length=100, null=True, blank=True)
-    country = models.CharField(max_length=100   , null=True, blank=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
     accommodation = models.CharField(
         max_length=3, 
         choices=[

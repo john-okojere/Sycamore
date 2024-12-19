@@ -125,7 +125,7 @@ def monitor_registrations(request):
     })
 
 def participant_cards(request):
-    registrant = Registrant.objects.all()    
+    registrant = Registrant.objects.all()
     return render(request, 'registration/participantcards.html' , {'registrant':registrant})
 
 
