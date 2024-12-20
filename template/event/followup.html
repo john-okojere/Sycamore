@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'table/css/jquery.dataTables.min.css' %}">
+<link rel="stylesheet" href="{% static 'table/css/buttons.dataTables.min.css' %}">
+<script src="{% static 'table/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'table/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'table/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'table/js/buttons.print.min.js' %}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<div class="container mt-4">
+    <h2 class="text-light">Follow Up DashBoard</h2>
+    <hr>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h4>Persons Not in Any Follow-Up Group</h4>
+            <p>Number of persons not in any follow-up group: {{ number_of_persons_not_in_follow_up }}</p>
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#personsNotInFollowUpModal">View Persons</button>
+        </div>
+    </div>
+    <!-- Persons Not in Follow-Up Modal -->
+<div class="modal fade" id="personsNotInFollowUpModal" tabindex="-1" aria-labelledby="personsNotInFollowUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="personsNotInFollowUpModalLabel">Persons Not in Any Follow-Up Group</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table id="personsNotInFollowUpTable" class="display" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data will be populated by DataTables -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <hr>
+    <div class="card">
+        <div class="card-body">
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#follow-up-modal">Create Follow-Up</button>
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Goal</th>
+                        <th scope="col">Souls</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for follow_up in follow_ups %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ follow_up.name }}</td>
+                        <td>{{ follow_up.user }}</td>
+                        <td>{{ follow_up.goal }}</td>
+                        <td>{{ follow_up.soul_set.all.count }}</td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#soul-modal-{{ follow_up.id }}">View Souls</button>
+                              <!-- Soul Modal -->
+                            <div class="modal fade" id="delete-modal-{{ follow_up.id }}" tabindex="-1" aria-labelledby="DeleteModalLabel-{{ follow_up.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="soulModalLabel-{{ follow_up.id }}">Souls for {{ follow_up.user }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5>Are you sure you want to delete this follow up Group?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" id="confirmdelete{{ follow_up.id }}">Confirm Delete Group</button>
+                                        </div>
+                                        <script>
+                                            $('#confirmdelete{{ follow_up.id }}').click(function (){
+                                                $.ajax({
+                                                    url: '/event/follow_ups/delete/{{ follow_up.id }}/',
+                                                    type: 'POST',
+                                                    data: {
+                                                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                                                    },
+                                                    success: function(response) {
+                                                        location.reload();
+                                                    },
+                                                    error: function(xhr, status, error) {
+                                                        console.error(error);
+                                                    }
+                                                });
+                                            })
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="soul-modal-{{ follow_up.id }}" tabindex="-1" aria-labelledby="soulModalLabel-{{ follow_up.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="soulModalLabel-{{ follow_up.id }}">Souls for {{ follow_up.user }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <table class="table" id="table{{follow_up.id}}">
+                                                <thead>
+                                                    <tr class="mx-5">
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Attendee</th>
+                                                        <th scope="col">Comments</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for soul in follow_up.soul_set.all %}
+                                                    <tr>
+                                                        <th scope="row">{{ forloop.counter }}</th>
+                                                        <td>{{ soul.attendee.attendee }}</td>
+                                                        <td>{{ soul.comments }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                            
+
+                                            <script>
+                                                $(document).ready(function() {
+                                                    var table = $('#table{{follow_up.id}}').DataTable();
+                                                });
+                                            </script>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{% url 'follow_up_view' follow_up.id %}" class="btn btn-primary">View</a>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ follow_up.id }}">Delete Group</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                  
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Follow Up Modal -->
+<div class="modal fade" id="follow-up-modal" tabindex="-1" aria-labelledby="followUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="followUpModalLabel">Create Follow-Up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="follow-up-form">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {{ form | crispy }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Custom JS for AJAX and Search Complete -->
+<script>
+$(document).ready(function() {
+
+    $('#personsNotInFollowUpTable').DataTable({
+        "ajax": {
+            "url": "{% url 'get_persons_not_in_follow_up' %}",
+            "dataSrc": ""
+        },
+        "columns": [
+            { "data": "first_name" },
+            { "data": "last_name" },
+            { "data": "email" },
+            { "data": "phone_number" }
+        ]
+    });
+
+    // Show/hide fields based on selected source
+    $('#id_source').change(function() {
+        var source = $(this).val();
+        if (source === 'event') {
+            $('#id_event').closest('.form-group').show();
+            $('#id_persons').closest('.form-group').hide();
+        } else if (source === 'no_event') {
+            $('#id_event').closest('.form-group').hide();
+            $('#id_persons').closest('.form-group').show();
+        }
+    }).trigger('change');
+
+    // AJAX form submission for creating follow-up
+    $('#follow-up-form').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'create_follow_up' %}",
+            data: $(this).serialize(),
+            success: function(response) {
+                $('#follow-up-modal').modal('hide');
+                alert('Follow-up created successfully');
+                location.reload(); // Refresh the page to show the new follow-up
+            },
+            error: function(response) {
+                alert('An error occurred. Please try again.');
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

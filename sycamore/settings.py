@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
 
     'home.apps.HomeConfig',
-    'attendance.apps.AttendanceConfig',
+    'event.apps.EventConfig',
+
     'registration.apps.RegistrationConfig',
 ]
 

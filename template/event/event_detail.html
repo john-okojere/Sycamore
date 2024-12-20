@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/event/style.css' %}">
+<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+
+<div class="container mt-5">
+    <div class="event-details mb-4">
+        <h2 class="mb-3">{{ event.title }}</h2>
+        <p>{{ event.description }}</p>
+        <p><strong>Date:</strong> {{ event.date }}</p>
+        <p><strong>Location:</strong> {{ event.location }}</p>
+        <p><strong>Department:</strong> {{ event.department.name }}</p>
+    </div>
+
+    {% if user.is_staff %}
+    <button class="btn btn-primary mb-4" id="create-attendance-list-btn" data-toggle="modal" data-target="#createAttendanceListModal">
+        Create Attendance List
+    </button>
+    {% endif %}
+
+    <h3>Attendance Lists</h3>
+    <ul id="attendance-lists" class="list-group">
+        {% for attendance_list in event.attendance_lists.all %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ attendance_list.name }}: {{ attendance_list.description }}</span>
+            <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#viewMoreModal{{ attendance_list.id }}">View More</button>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Modal for Creating Attendance List -->
+    <div class="modal fade" id="createAttendanceListModal" tabindex="-1" aria-labelledby="createAttendanceListModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createAttendanceListModalLabel">Create Attendance List</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="attendance-list-form">
+                        {% csrf_token %}
+                        {{ attendance_form.as_p }}
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals for Viewing More Details -->
+    {% for attendance_list in event.attendance_lists.all %}
+    <div class="modal fade" id="viewMoreModal{{ attendance_list.id }}" tabindex="-1" aria-labelledby="viewMoreModalLabel{{ attendance_list.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewMoreModalLabel{{ attendance_list.id }}">{{ attendance_list.name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ attendance_list.description }}</p>
+                    <p><strong>Date Created:</strong> {{ attendance_list.date_created }}</p>
+                    <p><strong>Number of Attendees:</strong> {{ attendance_list.attendees.count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    $('#attendance-list-form').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "create_attendance_list" event.id %}',
+            data: $(this).serialize(),
+            success: function(response) {
+                $('#createAttendanceListModal').modal('hide');
+                $('#attendance-lists').append(`
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>${response.attendance_list.name}: ${response.attendance_list.description}</span>
+                        <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#viewMoreModal${response.attendance_list.id}">View More</button>
+                    </li>
+                `);
+                // Create a new modal dynamically for the new attendance list
+                $('body').append(`
+                    <div class="modal fade" id="viewMoreModal${response.attendance_list.id}" tabindex="-1" aria-labelledby="viewMoreModalLabel${response.attendance_list.id}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="viewMoreModalLabel${response.attendance_list.id}">${response.attendance_list.name}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>${response.attendance_list.description}</p>
+                                    <p><strong>Date Created:</strong> ${response.attendance_list.date_created}</p>
+                                    <p><strong>Number of Attendees:</strong> 0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+                alert(response.message);
+            },
+            error: function(xhr) {
+                const errors = xhr.responseJSON.error;
+                let errorMessage = '';
+                for (const field in errors) {
+                    errorMessage += `${field}: ${errors[field].join(', ')}\n`;
+                }
+                alert(errorMessage);
+            }
+        });
+    });
+</script>
+{% endblock %}

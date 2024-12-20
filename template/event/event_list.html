@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<style>
+   textarea{
+    max-height: 50px !important;
+   }
+   .badge a{
+    padding: 10px;
+    text-decoration: none;
+   }
+   footer{
+    position: relative !important;
+   }
+</style>
+<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+<div class="container mt-3">
+    <h1 class="text-dark">Events</h1>
+    
+ {% if user.is_staff %}
+      <!-- Create Event Form -->
+      <form id="create-event-form" class=" col-4" method="POST" style="border: 1px solid black;padding: 1rem 2rem;">
+        {% csrf_token %}
+       <div>
+        {{ event_form | crispy }}
+       </div>
+        <button type="submit" class="btn btn-primary">Create Event</button>
+    </form>
+ {% endif %}
+
+    <div class="row mt-4" id="events-container">
+        {% for event in events %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <p class="card-text">{{ event.start_date }}</p>
+                            <p class="card-text">{{ event.description }}</p>
+                            <br>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#eventModal" data-id="{{ event.id }}">View Lists</button>
+                        </div>
+                        <div class="col-md-7 pt-2">
+                            <ul>
+                                <li>{{ event.allworker }} Workers</li>
+                                <li>{{ event.allattendee }} Attendees</li>
+                                <li> Total of {{ event.everyone }} People</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalLabel">Event Lists</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ol id="event-lists" class="list-group list-group-numbered"></ol>
+                
+                <form id="create-event-list-form" class=" mt-4">
+                    {% csrf_token %}
+                    {{ event_list_form | crispy }}
+                    <button type="submit" class="btn btn-primary">Add List</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Handle Event Creation
+    $('#create-event-form').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '{% url "create_event" %}',
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(data) {
+                $('#events-container').prepend(
+                    `<div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">${data.name}</h5>
+                                <p class="card-text">${data.start_date}</p>
+                                <p class="card-text">${ data.description }</p>
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#eventModal" data-id="${data.id}">View Lists</button>
+                            </div>
+                        </div>
+                    </div>`
+                );
+                $('#create-event-form')[0].reset();
+            }
+        });
+    });
+
+    // Show Event Lists in Modal
+    $('#eventModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var eventId = button.data('id');
+        $('#create-event-list-form').data('event-id', eventId);
+
+        $.ajax({
+            url: "{% url 'event_details' 0 %}".replace('0', eventId),
+            success: function(data) {
+                var lists = data.lists;
+                var listContainer = $('#event-lists');
+                listContainer.empty();
+                lists.forEach(function(list) {
+                    listContainer.append(`
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="ms-2 me-auto">
+                            <div class="fw-bold">${list.name}</div>
+                            ${list.description}<br> ${list.user_count} users, ${list.count} attendees 
+                            </div>
+                            <div>
+                                <span class="badge bg-primary rounded-pill"><a href="/event/list/${list.id}" style="color:#fff"> View List</a></span>
+                                <br>
+                                <span class="badge bg-primary rounded-pill"><a href="/event/user_list/${list.id}" style="color:#fff"> View Workers List</a></span>
+                            </div>
+                            </li>
+                    `);
+                });
+            }
+        });
+    });
+
+    // Handle Event List Creation
+    $('#create-event-list-form').submit(function(e) {
+        e.preventDefault();
+        var eventId = $(this).data('event-id');
+        $.ajax({
+            url: "{% url 'create_event_list' 0 %}".replace('0', eventId),
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(data) {
+                $('#event-lists').append(`
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="ms-2 me-auto">
+                            <div class="fw-bold">${data.name}</div>
+                            ${data.description} <br> ${data.user_count} users, ${data.count} attendees 
+                            </div>
+                            <span class="badge bg-primary rounded-pill"><a href="/event/list/${data.id}" style="color:#fff"> View List</a></span>
+                            <br>
+                            <span class="badge bg-primary rounded-pill"><a href="/event/user_list/${data.id}" style="color:#fff"> View Workers List</a></span>
+                        </li>
+                `);
+                $('#create-event-list-form')[0].reset();
+            }
+        });
+    });
+</script>
+
+{% endblock content %}

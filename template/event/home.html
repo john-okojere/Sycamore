@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<meta charset="UTF-8">
+    <title>Event Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .event-list {
+            margin-top: 20px;
+        }
+        .event-item {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .modal {
+            display: none;
+        }
+        .modal.show {
+            display: block;
+        }
+        .event-item {
+            transition: transform 0.3s ease;
+        }
+        
+        .event-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+        
+    </style>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-8">
+            <h2 class="mb-4">Events</h2>
+            <div id="event-list" class="event-list">
+                <!-- Events will be dynamically loaded here -->
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h2 class="mb-3">Create Event</h2>
+                <form id="event-form" class="mb-3">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <button type="submit" class="btn btn-primary btn-block">Create Event</button>
+                </form>
+                <div id="success-message" class="alert alert-success d-none"></div>
+                <div id="error-message" class="alert alert-danger d-none"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="view-event-modal" tabindex="-1" role="dialog" aria-labelledby="view-event-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="view-event-modal-title">Event Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="view-event-modal-body">
+                <!-- Event details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Load events on page load
+        loadEvents();
+
+        // Event form submission
+        $('#event-form').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url "create_event" %}',
+                data: $(this).serialize(),
+                success: function(response) {
+                    if (response.message) {
+                        $('#success-message').text(response.message).removeClass('d-none').addClass('show');
+                        setTimeout(function() {
+                            $('#success-message').removeClass('show').addClass('d-none');
+                        }, 3000);
+                        $('#event-list').prepend(`
+                            <div class="event-item card mb-3">
+                                <div class="card-body">
+                                    <h3 class="card-title">${response.event.title}</h3>
+                                    <p class="card-text">${response.event.description}</p>
+                                    <p><strong>Date:</strong> ${response.event.date}</p>
+                                    <p><strong>Location:</strong> ${response.event.location}</p>
+                                    <a class="btn btn-primary btn-sm view-event-btn" href= "events/${response.event.id}">View Details</a>
+                                </div>
+                            </div>
+                        `);
+                        $('#event-form')[0].reset();
+                    }
+                },
+                error: function(response) {
+                    $('#error-message').text(response.responseJSON.error).removeClass('d-none').addClass('show');
+                    setTimeout(function() {
+                        $('#error-message').removeClass('show').addClass('d-none');
+                    }, 3000);
+                }
+            });
+        });
+
+        // Load events function
+        function loadEvents() {
+            $.ajax({
+                type: 'GET',
+                url: '{% url "get_events" %}',
+                success: function(response) {
+                    $('#event-list').empty();
+                    response.events.forEach(event => {
+                        $('#event-list').append(`
+                            <div class="event-item card mb-3">
+                                <div class="card-body">
+                                    <h3 class="card-title">${event.title}</h3>
+                                    <p class="card-text">${event.description}</p>
+                                    <p><strong>Date:</strong> ${event.date}</p>
+                                    <p><strong>Location:</strong> ${event.location}</p>
+                                    <a class="btn btn-primary btn-sm view-event-btn" href= "events/${event.id}">View Details</a>
+                                </div>
+                            </div>
+                        `);
+                    });
+                }
+            });
+        }
+
+        // View event details modal
+        $('#event-list').on('click', '.view-event-btn', function() {
+            var eventId = $(this).data('id');
+            $.ajax({
+                type: 'GET',
+                url: `events/${eventId}/`,
+                success: function(response) {
+                    $('#view-event-modal-body').html(`
+                        <h4>Title: ${response.event.title}</h4>
+                        <p>Description: ${response.event.description}</p>
+                        <p><strong>Date:</strong> ${response.event.date}</p>
+                        <p><strong>Location:</strong> ${response.event.location}</p>
+                    `);
+                    $('#view-event-modal').modal('show');
+                }
+            });
+        });
+    });
+    loadEvents()
+</script>
+{% endblock content %}

@@ -1,0 +1,274 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+    {% block title %} DashBoard {% endblock title %}  | Layers Of Truth Church Administration Dashboard</title>
+    <meta name="description" content="The Layers Of Truth Church Administration Dashboard is a comprehensive platform designed for managing Layers Of Truth Church events, departments, and member information. Ensure smooth Layers Of Truth Church operations with our user-friendly and feature-rich dashboard.">
+    <meta name="keywords" content="Layers Of Truth Church administration, Layers Of Truth Church events, Layers Of Truth Church departments, Layers Of Truth Church member management, event management, attendance tracking, Layers Of Truth Church dashboard, member information, Layers Of Truth Church QR code scanner">
+    <meta name="author" content="Layers Of Truth">
+    <meta name="robots" content="index, follow">
+
+ <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/lot_logo.png' %}" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/lot_logo.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/lot_logo.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/lot_logo.png' %}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Layers Of Truth Church Administration Dashboard">
+    <meta property="og:description" content="A comprehensive platform for managing Layers Of Truth Church events, departments, and member information.">
+    <meta property="og:image" content="{% static 'assets/images/login-img.svg' %}">
+    <meta property="og:url" content="https://www.layersoftruth.org">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="{% static 'assets/images/login-img.svg' %}">
+    <meta name="twitter:title" content="Layers Of Truth Church Administration Dashboard">
+    <meta name="twitter:description" content="A comprehensive platform for managing Layers Of Truth Church events, departments, and member information.">
+    <meta name="twitter:image" content="{% static 'assets/images/login-img.svg' %}">
+    <meta name="twitter:site" content="@yourLayers Of Truth Churchhandle">
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://dashboard.layersoftruth.org">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
+    <style>
+        .messages {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .messages .error {
+            color: red;
+        }
+        
+        .messages .success {
+            color: green;
+        }
+        
+        .messages .info {
+            color: blue;
+        }
+        
+        .messages .warning {
+            color: orange;
+        }
+        section {
+                page-break-before: always; /* Forces a page break before the element */
+            }
+        </style>
+        <style>
+            .loader {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(255, 255, 255, 0.8);
+                z-index: 9999;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .loader::after {
+                content: '';
+                border: 6px solid #3f3f3f;
+                border-radius: 50%;
+                border-top: 6px solid #3498db;
+                width: 60px;
+                height: 60px;
+                -webkit-animation: spin 0.8s linear infinite;
+                animation: spin 0.8s linear infinite;
+            }
+            
+            @-webkit-keyframes spin {
+                0% { -webkit-transform: rotate(0deg); }
+                100% { -webkit-transform: rotate(360deg); }
+            }
+            
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            </style>
+   
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+<script src="https://kit.fontawesome.com/7559e3d310.js" crossorigin="anonymous"></script>
+{% block head %}   {% endblock head %}
+<style>
+        ul{
+            margin-bottom: 0;
+        }
+        *{
+            font-family: "Poppins" !important;
+        }
+        body{
+            background-color: #282a36;
+        }
+        .btn-primary{
+            background-color: #282a36;
+            border-color: #282a36 !important;
+        }
+        .btn-outline-primary{
+            border-color: #282a36 !important;
+            color: #282a36; 
+        }
+      
+    </style>
+</head>
+<body>
+    <nav class="navbar justify-content-center" style="padding: 0;box-shadow:0px 1px 11px -4px rgba(255, 255, 255, 0.55)">
+        <div class="navbar-container">
+            <a href="/" class="navbar-logo">
+                <img src="{% static 'img/lot_logo.png' %}" style="width: 50px;" alt="">Dashboard
+            </a>
+            <ul class="navbar-menu">
+               {% if user.is_authenticated %}
+               <li class="navbar-item"><a href="{% url 'home' %}" class="navbar-link">Home</a></li>
+               <li class="navbar-item  dropdown">
+                    <a href="#" class="navbar-link">Departments</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'department_page' %}" class="navbar-link">Departments</a>
+                        <a href="{% url 'follow_up_system' %}" class="navbar-link">Follow Up</a>
+                    </div>
+                </li>
+              
+               <li class="navbar-item dropdown">
+                   <a href="#"  class="dropbtn navbar-link">Administration</a>
+                   <div class="dropdown-content">
+                       <a href="{% url 'all_siloam_card' %}" >All Siloam Cards</a>
+                       <a href="{% url 'specialcard' %}" >All Special Cards</a>
+                       <a href="{% url 'allprofile' %}" >All Workers Cards</a>
+                        {% if user.is_authenticated %}{% if user.level >= 4 %}
+                       <a href="{% url 'manage_users' %}" >Manage Users</a>
+                        {% endif %}{% endif %}
+                   </div>
+               </li>
+              
+               <li class="navbar-item"><a href="https://www.layersoftruth.org" class="navbar-link">Main Site</a></li>
+               <li class="navbar-item">
+                   <form method="POST" action="{% url 'logout' %}">
+                       {% csrf_token %}  <button class="text-dark bg-light btn navbar-link" type="submit">Logout : {{user.level}}</button>
+                   </form>
+               </li>
+               {% else %}
+               <li class="navbar-item"><a href="https://www.layersoftruth.org" class="navbar-link">Main Site</a></li>
+               <li class="navbar-item"><a href="{% url 'login' %}" class="navbar-link text-dark bg-light btn">Login</a></li>
+
+               {% endif %}
+            </ul>
+            <div class="navbar-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+<div>
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} bg-light alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" style="font-size: large;" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navbarMenu = document.querySelector('.navbar-menu');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('is-active');
+            navbarMenu.classList.toggle('active');
+            navbarMenu.style.display = "flex";
+        });
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName('dropdown-content');
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === 'block') {
+                        openDropdown.style.display = 'none';
+                    }
+                }
+            }
+        }
+
+    </script>
+    <style>
+        @print {
+            nav{
+                display:none;
+            }
+        }
+    </style>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% block content %}
+        
+        {% endblock content %}
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Custom JS for Loader -->
+        <script>
+        $(document).ready(function() {
+            // Initialize loader
+            var loader = $('<div class="loader"></div>');
+            $('body').append(loader.hide());
+        
+            // AJAX start handler
+            $(document).ajaxStart(function() {
+                loader.show(); // Show loader on AJAX start
+            });
+        
+            // AJAX stop handler
+            $(document).ajaxStop(function() {
+                loader.hide(); // Hide loader on AJAX stop
+            });
+        
+            // Prevent loader from showing on click events for dropdowns
+            $(document).on('click', '.dropdown-toggle', function(e) {
+                e.stopPropagation(); // Prevent the loader from showing on dropdown toggle clicks
+            });
+        
+            // Example AJAX request
+            $('#example-button').click(function() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/your-endpoint/',
+                    success: function(response) {
+                        // Handle success
+                        console.log('Request successful');
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        console.error('Request failed');
+                    }
+                });
+            });
+        });
+        </script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

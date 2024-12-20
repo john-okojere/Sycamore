@@ -25,6 +25,7 @@ urlpatterns = [
     path('', views.homepage, name = "homepage"),
     path('give-online', views.giveOnline, name = "give"),
     path('register/', include('registration.urls')),
+    path('event/', include('event.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

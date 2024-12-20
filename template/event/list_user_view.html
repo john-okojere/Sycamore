@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static 'table/css/jquery.dataTables.min.css' %}">
+<link rel="stylesheet" href="{% static 'table/css/buttons.dataTables.min.css' %}">
+<style>
+    
+    .dataTables_info, .ellipsis, .dataTables_length {
+            color: #fff !important;
+        }
+        .paginate_button, .dt-button {
+            background-color: #fff !important;
+            color: #000 !important;
+        }
+        .form-field label{
+            color: #000;
+        }
+        .dataTables_filter, .dataTables_filter{
+            height: 50px;
+            color: #fff !important;
+        }
+        #personTable_filter input{
+            padding: 4px;
+            color: #000;
+            border-radius: 5px;
+        }
+</style>
+<div class="container mt-3">
+    <h1 class="text-light">{{ event_list.name }} - Workers List</h1>
+
+    {% if user.level >= 3 %}
+        <button class="btn bg-light mb-4" data-toggle="modal" data-target="#addAttendeeModal">Add Attendee</button>
+    {% endif %}
+    {% if user.level >= 2 %}
+      <a href="{% url 'list_scan' event_list.id %}" class="btn bg-light mb-4">Scan</a>
+    {% endif %}
+    <br>
+    <table id="attendees-table" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone</th>
+                <th>Check-in Time</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attendee in event_list.userattendee.all %}
+            <tr>
+                <td>{{ attendee.attendee.id }}</td>
+                <td>{{ attendee.attendee.first_name }}</td>
+                <td>{{ attendee.attendee.last_name }}</td>
+                <td>{{ attendee.attendee.phone_number }}</td>
+                <td>{{ attendee.check_in_time }}</td>
+                <td><a href="{% url 'profile_view' attendee.attendee.id %}">View Profile</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Attendee Modal -->
+<div class="modal fade" id="addAttendeeModal" tabindex="-1" role="dialog" aria-labelledby="addAttendeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAttendeeModalLabel">Add Attendee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-attendee-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'table/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'table/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'table/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'table/js/buttons.print.min.js' %}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#attendees-table').DataTable();
+
+        $('#add-attendee-form').submit(function(e) {
+            e.preventDefault();
+            var url = "{% url 'user_add_attendee' event_list.id %}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(data) {
+                    $('#addAttendeeModal').modal('hide');
+                    var table = $('#attendees-table').DataTable();
+                    table.row.add([
+                        data.id,
+                        data.attendee_first_name,
+                        data.attendee_last_name,
+                        data.attendee_phone,
+                        data.check_in_time,
+                        `<a href='/profile/${data.uid}'>View Profile</a>`,
+                    ]).draw(false);
+                    $('#add-attendee-form')[0].reset();
+                },
+                error: function(xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+{% endblock content %}

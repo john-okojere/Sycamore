@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<style>
+     .dataTables_info, .ellipsis, .dataTables_length {
+        color: #fff !important;
+    }
+    .paginate_button, .dt-button {
+        background-color: #fff !important;
+        color: #000 !important;
+    }
+    .form-field label  {
+        color: #000; 
+    }
+    .dataTables_filter {
+        height: 50px;
+        color: #fff !important;
+    }
+    .dataTables_wrapper .dataTables_filter input , select{
+        padding: 4px;
+        color: #fff;
+        border-radius: 5px;
+    }
+</style>
+<div class="container mt-4">
+   <div>
+    <div>
+    <h2 class="text-light">{{follow_ups.name}}</h2>
+    <p class="text-light">{{follow_ups.goal}}</p>
+    </div>
+    <div>
+        <button class="add-single-person btn btn-success">Add Person</button>
+    <hr>
+    <div class="modal fade" id="addSinglePersonModal" tabindex="-1" aria-labelledby="addSinglePersonModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addSinglePersonModalLabel">Add Person to Follow-Up Group</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Add to the follow-up group:</p>
+                        <form id="add-single-person-form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="person_id">Select a person:</label>
+                                <select name="person_id" id="person_id" class="form-control">
+                                    {% for person in persons_not_in_follow_up %}
+                                        <option value="{{person.id}}">{{ person }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Add Person</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+   </div>
+    <script>
+    $(document).on('click', '.add-single-person', function() {
+        var followUpId = $(this).data('follow-up-id');
+        $('#follow-up-id').val(followUpId);
+        $('#addSinglePersonModal').modal('show');
+    });
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+            $('#add-single-person-form').submit(function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                var followUpId = $('#follow-up-id').val();
+                console.log($('#person_id').val())
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "add_single_person" follow_ups.id %}',
+                    data: {
+                        'csrfmiddlewaretoken':'{{ csrf_token }}',
+                        'person_id':$('#person_id').val()
+                    },
+                    success: function(response) {
+                        alert(response.message);
+                        $('#addSinglePersonModal').modal('hide');
+                        location.reload();
+
+                        // You may want to reload the page or update the UI here
+                    },
+                    error: function(response) {
+                        if (response.responseJSON && response.responseJSON.errors) {
+                            alert('Failed to add person. ' + JSON.stringify(response.responseJSON.errors));
+                        } else {
+                            alert('An error occurred. Please try again.');
+                        }
+                    }
+                });
+            });
+        });
+        </script>
+    <table id="souls-table" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Attendee</th>
+                <th>Last Comment</th>
+                <th>Commenter</th>
+                <th>Phone </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for soul in follow_ups.soul_set.all %}
+            <tr>
+                <th>{{forloop.counter}}</th>
+                <td>{{ soul.attendee.attendee }}</td>
+                <td>{{ soul.comment.last.comments }}</td>
+                <td>{{ soul.comment.last.user }}</td>
+                <td>{{ soul.attendee.attendee.phone_number }}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-info view-comments" data-soul-id="{{ soul.id }}" data-bs-toggle="modal" data-bs-target="#view-comments-modal">View Comments</button>
+                    <button type="button" class="btn btn-sm btn-primary add-comment" data-soul-id="{{ soul.id }}" data-bs-toggle="modal" data-bs-target="#add-comment-modal">Add Comment</button>
+                    <button type="button" class="btn btn-sm btn-secondary view-bio" data-attendee-id="{{ soul.attendee.id }}" data-bs-toggle="modal" data-bs-target="#view-bio-modal">View Bio</button>
+                    <button type="button" class="btn btn-sm btn-danger delete-soul" data-attendee-id="{{ soul.id }}" data-bs-toggle="modal" data-bs-target="#delete-modal">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- View Comments Modal -->
+<div class="modal fade" id="view-comments-modal" tabindex="-1" aria-labelledby="viewCommentsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewCommentsModalLabel">View Comments</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="comments-list">
+                    <!-- Comments will be loaded dynamically via AJAX -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="viewCommentsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewCommentsModalLabel">Remove Soul</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>Are you Sure you want to remove this soul from your list?</h6>
+                <div id="delete-button">
+                    <!-- Comments will be loaded dynamically via AJAX -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Comment Modal -->
+<div class="modal fade" id="add-comment-modal" tabindex="-1" aria-labelledby="addCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCommentModalLabel">Add Comment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="add-comment-form">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" id="soul-id" name="soul_id">
+                    <div class="mb-3">
+                        <label for="comment-text" class="form-label">Comment</label>
+                        <textarea class="form-control" id="comment-text" name="comment" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- View Bio Modal -->
+<div class="modal fade" id="view-bio-modal" tabindex="-1" aria-labelledby="viewBioModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewBioModalLabel">Attendee Bio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="bio-details">
+                    <!-- Bio details will be loaded dynamically via AJAX -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Initialize DataTable
+    var table = $('#souls-table').DataTable();
+
+    $(document).on('click', '.view-comments', function() {
+        var soulId = $(this).data('soul-id');
+        $.ajax({
+            url: "{% url 'view_comments' %}",
+            type: 'GET',
+            data: {
+                soul_id: soulId
+            },
+            success: function(response) {
+                var commentsHtml = '<ul>';
+                    response.comments.forEach(function(comment) {
+                        commentsHtml += `
+                            <div class="comment-item p-2 mb-2 border rounded">
+                                <p class="mb-1"><strong>Comment:</strong> ${comment.comments}</p>
+                                <p class="mb-1"><strong>By:</strong> ${comment.user__first_name} ${comment.user__last_name}</p>
+                                <p class="mb-0 text-muted"><small><strong>Date:</strong> ${new Date(comment.date).toLocaleString()}</small></p>
+                            </div>
+                        `;
+                    });
+                commentsHtml += '</ul>';
+                $('#comments-list').html(commentsHtml);
+                $('#view-comments-modal').modal('show');
+            },
+            error: function(response) {
+                alert('Failed to fetch comments. Please try again.');
+            }
+        });
+    });
+    
+
+    // Add Comment Modal - AJAX
+    $(document).on('click', '.add-comment', function() {
+        var soulId = $(this).data('soul-id');
+        $('#soul-id').val(soulId);
+        $('#add-comment-modal').modal('show');
+    });
+    
+    $(document).on('click', '.delete-soul', function() {
+        var soulId = $(this).data('attendee-id');
+        $('#soul-id').val(soulId);
+        $('#delete-button').html(
+        `<button type="button" class="btn btn-sm btn-danger confirm-delete-soul" id="confirmDeleteBtn" data-attendee-id="${soulId}">Delete</button>`
+        );
+    });
+    // Confirm delete button click handler
+    $(document).on('click', '#confirmDeleteBtn', function() {
+            var personId = $(this).data('attendee-id');
+            $.ajax({
+                url: '/event/soul_delete/' + personId +'/',
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+    $('#add-comment-form').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'add_comment' %}",
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.status === 'success') {
+                    $('#add-comment-modal').modal('hide');
+                    alert('Comment added successfully');
+                    location.reload(); // Reload to see the new comment
+                } else {
+                    alert('Failed to add comment. Please try again.');
+                }
+            },
+            error: function(response) {
+                alert('Failed to add comment. Please try again.');
+            }
+        });
+    });
+
+    // View Bio Modal - AJAX
+    $(document).on('click', '.view-bio', function() {
+        var attendeeId = $(this).data('attendee-id');
+        $.ajax({
+            url: "{% url 'attendee_bio' 0 %}".replace('0', attendeeId),
+            type: 'GET',
+            success: function(response) {
+                var bioDetails = `
+                    <p><strong>First Name:</strong> ${response.first_name}</p>
+                    <p><strong>Last Name:</strong> ${response.last_name}</p>
+                    <p><strong>Email:</strong> ${response.email}</p>
+                    <p><strong>Phone:</strong> ${response.phone}</p>
+                    <a href="/Siloam/${response.aid}" class="btn btn-success">View</a>
+                `;
+                $('#bio-details').html(bioDetails);
+                $('#view-bio-modal').modal('show');
+            },
+            error: function(response) {
+                alert('Failed to fetch bio details. Please try again.');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
