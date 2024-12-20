@@ -153,26 +153,15 @@ def getscan(request, list_id):
     event_list = get_object_or_404(EventList, id=list_id)
     data = json.loads(request.body)
     url_string = data.get('text')
-
     parsed_url = urlparse(url_string) #https://dashboard.layersoftruth.org/Special/1
     path = parsed_url.path
-    component = path.strip('/').split('/')
+    component = 'Siloam'
 
     category = component[0]
-    uid = component[1]
-
-    if category.title() == 'Profile':
-        person  = User.objects.get(uid=uid)
-        if UserAttendee.objects.filter(list=event_list, attendee=person):
-            attendee = UserAttendee.objects.get(list=event_list, attendee=person)
-            return JsonResponse({'message': f'ID: {attendee.attendee.id} is already present in the list'})
-        else:
-            UserAttendee.objects.create(list = event_list, attendee=person)
-        return JsonResponse({'success': 'successfully added to the list'})
-    elif category.title() == 'Special':
-        person  = SpecialCard.objects.get(id=uid)
-    elif category.title() == 'Siloam':
-        person = Person.objects.get(id = uid)
+    uid = url_string
+    
+    if uid:
+        person = Person.objects.get(uid = uid)
         if Attendee.objects.filter(list=event_list, attendee=person):
             attendee = Attendee.objects.filter(list=event_list, attendee=person).first()
             return JsonResponse({'message': f'ID: {attendee.attendee.id} is already present in the list'})
