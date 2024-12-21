@@ -78,6 +78,14 @@ def list_view(request, list_id):
         'form': form
     })
 
+from registration.models import Registrant
+
+def registrant_list_view(request):
+    list = Registrant.objects.all()
+    return render(request, 'event/registrant_list_view.html', {
+        'list': list,
+    })
+
 @login_required
 def add_attendee_view(request, list_id):
     event_list = get_object_or_404(EventList, id=list_id)
@@ -146,6 +154,7 @@ from django.views.decorators.http import require_POST
 import json
 from registration.models import Registrant as Person, InHouse as User
 from urllib.parse import urlparse
+
 
 
 @login_required

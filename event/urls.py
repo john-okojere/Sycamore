@@ -9,6 +9,7 @@ urlpatterns = [
     path('create_event_list/<int:event_id>/', views.create_event_list_view, name='create_event_list'),
     path('event_details/<int:event_id>/', views.event_details_view, name='event_details'),
 
+    path('list/', views.registrant_list_view, name='registrant_list_view'),
     path('list/<int:list_id>/', views.list_view, name='list_view'),
     path('list/<int:list_id>/scan', views.scan, name='list_scan'),
     path('list/<int:list_id>/getscan', views.getscan, name='list_getscan'),
